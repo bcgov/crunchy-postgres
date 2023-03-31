@@ -1,0 +1,148 @@
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: {{ template "crunchy-postgres.fullname" . }}
+  labels: {{ include "crunchy-postgres.labels" . | nindent 4 }}
+spec:
+  metadata:
+    labels: {{ include "crunchy-postgres.labels" . | nindent 6 }}
+  monitoring:
+    pgmonitor:
+      # this stuff is for the "exporter" container in the "hippo-ha-pgha1" set of pods
+      exporter:
+        image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres-exporter:ubi8-5.0.4-0
+        resources:
+          requests:
+            cpu: {{ .Values.exporter.requests.cpu }}
+            memory: {{ .Values.exporter.requests.memory }}
+          limits:
+            cpu: {{ .Values.exporter.limits.cpu }}
+            memory: {{ .Values.exporter.limits.memory }}
+  image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres:centos8-14.1-0
+  postgresVersion: 14
+  instances:
+    - name: {{ .Values.instances.name }}
+      replicas: {{ .Values.instances.replicas }}
+
+      # these resources are for the "database" container in the "hippo-ha-pgha1" set of pods
+      resources:
+        requests:
+          cpu: {{ .Values.instances.requests.cpu }}
+          memory: {{ .Values.instances.requests.memory }}
+        limits:
+          cpu: {{ .Values.instances.limits.cpu }}
+          memory: {{ .Values.instances.limits.memory }}
+      sidecars:
+        # this stuff is for the "replication-cert-copy" container in the "hippo-ha-pgha1" set of pods
+        replicaCertCopy:
+          resources:
+            requests:
+              cpu: {{ .Values.replicaCertCopy.requests.cpu }}
+              memory: {{ .Values.replicaCertCopy.requests.memory }}
+            limits:
+              cpu: {{ .Values.replicaCertCopy.limits.cpu }}
+              memory: {{ .Values.replicaCertCopy.limits.memory }}
+      dataVolumeClaimSpec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: {{ .Values.dataVolumeClaimSpec.storage }}
+        storageClassName: netapp-block-standard
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    postgres-operator.crunchydata.com/cluster:
+                      {{ template "crunchy-postgres.fullname" . }}
+                    postgres-operator.crunchydata.com/instance-set: hippo-ha
+  users:
+    - name: {{ template "crunchy-postgres.fullname" . }}
+      databases:
+        - {{ template "crunchy-postgres.fullname" . }}
+      options: "CREATEROLE"
+    - name: postgres
+      databases:
+        - {{ template "crunchy-postgres.fullname" . }}
+  backups:
+    pgbackrest:
+      global:
+        repo1-retention-full: {{ .Values.pgbackrest.retention | quote }}
+      image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-pgbackrest:centos8-2.36-0
+      repos:
+        - name: repo1
+          schedules:
+            # Full backup every day at 8:00am UTC
+            full: "0 8 * * *"
+            # Incremental backup every 4 hours, except at 8am UTC (when the full backup is running)
+            incremental: "0 0,4,12,16,20 * * *"
+          volume:
+            volumeClaimSpec:
+              accessModes:
+                - "ReadWriteOnce"
+              resources:
+                requests:
+                  storage: {{ .Values.pgbackrest.volume.storage }}
+              storageClassName:
+                {{ .Values.pgbackrest.volume.storageClassName }}
+      # this stuff is for the "pgbackrest" container (the only non-init container) in the "hippo-ha-repo-host" pod
+      repoHost:
+        resources:
+          requests:
+            cpu: {{ .Values.pgbackrest.repoHost.requests.cpu }}
+            memory: {{ .Values.pgbackrest.repoHost.requests.memory }}
+          limits:
+            cpu: {{ .Values.pgbackrest.repoHost.limits.cpu }}
+            memory: {{ .Values.pgbackrest.repoHost.limits.memory }}
+      sidecars:
+        # this stuff is for the "pgbackrest" container in the "hippo-ha-pgha1" set of pods
+        pgbackrest:
+          resources:
+            requests:
+              cpu: {{ .Values.pgbackrest.requests.cpu }}
+              memory: {{ .Values.pgbackrest.requests.memory }}
+            limits:
+              cpu: {{ .Values.pgbackrest.limits.cpu }}
+              memory: {{ .Values.pgbackrest.limits.memory }}
+  patroni:
+    dynamicConfiguration:
+      postgresql:
+        pg_hba:
+          - "host all all 0.0.0.0/0 md5"
+        parameters:
+          shared_buffers: "16MB" # default is 128MB; a good tuned default for shared_buffers is 25% of the memory allocated to the pod
+          wal_buffers: "-1" # automatically set as 1/32 of shared_buffers or 64kB, whichever is larger
+          min_wal_size: "32MB"
+          max_wal_size: "128MB" # default is 1GB
+          max_slot_wal_keep_size: "256MB" # default is -1, allowing unlimited wal growth when replicas fall behind
+  proxy:
+    pgBouncer:
+      config:
+        global:
+          client_tls_sslmode: disable
+      image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-pgbouncer:centos8-1.16-0
+      replicas: {{ .Values.pgBouncer.replicas }}
+      # these resources are for the "pgbouncer" container in the "hippo-ha-pgbouncer" set of pods
+      # there is a sidecar in these pods which are not mentioned here, but the requests/limits are teeny weeny by default so no worries there.
+      resources:
+        requests:
+          cpu: {{ .Values.pgBouncer.requests.cpu }}
+          memory: {{ .Values.pgBouncer.requests.memory }}
+        limits:
+          cpu: {{ .Values.pgBouncer.limits.cpu }}
+          memory: {{ .Values.pgBouncer.limits.memory }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    postgres-operator.crunchydata.com/cluster:
+                      {{ .Values.instances.name }}
+                    postgres-operator.crunchydata.com/role: pgbouncer

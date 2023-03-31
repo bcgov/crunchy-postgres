@@ -1,0 +1,62 @@
+deployer:
+  namespace: "d8d909-dev" # The namespace must be passed in via the deploy script
+  serviceAccount:
+    enabled: true
+
+# Postgres Cluster resource values:
+exporter:
+  requests:
+    cpu: 1m
+    memory: 64Mi
+  limits:
+    cpu: 50m
+    memory: 128Mi
+
+instances:
+  name: crunchy-postgres
+  replicas: 3
+  requests:
+    cpu: 1m
+    memory: 256Mi
+  limits:
+    cpu: 100m
+    memory: 512Mi
+
+replicaCertCopy:
+  requests:
+    cpu: 1m
+    memory: 32Mi
+  limits:
+    cpu: 50m
+    memory: 64Mi
+
+dataVolumeClaimSpec:
+  storage: 256Mi
+
+pgbackrest:
+  requests:
+    cpu: 1m
+    memory: 64Mi
+  limits:
+    cpu: 50m
+    memory: 128Mi
+  volume:
+    storage: 256Mi
+    storageClassName: netapp-file-backup
+  repoHost:
+    requests:
+      cpu: 2m
+      memory: 64Mi
+    limits:
+      cpu: 50m
+      memory: 128Mi
+  retention: "30"
+
+pgBouncer:
+  replicas: 2
+  requests:
+    cpu: 2m
+    memory: 16Mi
+  limits:
+    cpu: 50m
+    memory: 32Mi
