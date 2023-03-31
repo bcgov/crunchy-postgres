@@ -1,0 +1,25 @@
+name: deploy tools chart
+
+on:
+  workflow_call:
+    secrets:
+      OPENSHIFT_SERVER: { required: true }
+      OPENSHIFT_TOKEN: { required: true }
+      NAMESPACE_PREFIX: { required: true }
+
+jobs:
+  helm_deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: tools
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Authenticate, set context and run deploy script
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+          insecure_skip_tls_verify: true
+      - run: |
+          helm upgrade cruncy-postgres-tools operations/deployment/tools --install --atomic -n ${{ secrets.NAMESPACE_PREFIX }}-tools

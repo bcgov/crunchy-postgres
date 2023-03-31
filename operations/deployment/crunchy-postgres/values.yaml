@@ -1,7 +1,6 @@
 fullnameOverride: crunchy-postgres
 
 deployer:
-  namespace: "d8d909-dev" # The namespace must be passed in via the deploy script
   serviceAccount:
     enabled: true
 

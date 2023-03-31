@@ -1,0 +1,9 @@
+fullnameOverride: crunchy-postgres-tools
+
+deployer:
+  serviceAccount:
+    enabled: true
+
+linter:
+  serviceAccount:
+    enabled: true
