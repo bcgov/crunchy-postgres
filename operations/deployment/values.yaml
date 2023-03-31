@@ -3,6 +3,9 @@ deployer:
   serviceAccount:
     enabled: true
 
+networkPolicies:
+  enabled: true
+
 # Postgres Cluster resource values:
 exporter:
   requests:
