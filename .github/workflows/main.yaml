@@ -1,0 +1,24 @@
+# Main workflow, orchestrating and triggering other workflows
+name: main
+
+on:
+  workflow_call:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # test:
+  #   uses: ./.github/workflows/test.yaml
+  #   secrets: inherit
+
+  deploy:
+    # if: github.event.ref == 'refs/heads/main'
+    # needs: [test]
+    uses: ./.github/workflows/deploy-chart.yaml
+    secrets:
+      OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
+      OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
+      OPENSHIFT_NAMESPACE: ${{ secrets.OPENSHIFT_NAMESPACE }}
+      OPENSHIFT_ROUTE: ${{ secrets.OPENSHIFT_ROUTE }}

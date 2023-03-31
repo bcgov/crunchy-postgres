@@ -1,0 +1,31 @@
+name: Deploy to OpenShift
+description: "Login and deploy to OpenShift"
+
+inputs:
+  openshift_server_url:
+    description: "URL of the OpenShift server"
+    required: true
+  openshift_token:
+    description: "Unique login token for OpenShift"
+    required: true
+  openshift_namespace:
+    description: "The namespace being deployed to"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Authenticate, set context and run deploy script
+      uses: redhat-actions/oc-login@v1
+      with:
+        openshift_server_url: ${{ inputs.openshift_server_url }}
+        openshift_token: ${{ inputs.openshift_token }}
+        openshift_namespace: ${{ inputs.openshift_namespace }}
+
+        insecure_skip_tls_verify: true
+    - run: |
+        cd operations/deployment/crunchy-postgres
+        helm dep up
+        helm upgrade --install --atomic -f ./values.yaml "$@" crunchy-postgres . --timeout=8m0s -n ${{ inputs.openshift_namespace }}
+
+      shell: bash
