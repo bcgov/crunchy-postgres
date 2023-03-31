@@ -1,0 +1,32 @@
+# Tests
+name: test code
+
+on:
+  workflow_call:
+
+jobs:
+  gitleaks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: ./.bin/install-gitleaks-linux-x64.sh
+      - run: ./gitleaks detect --exit-code 0 --report-format sarif --report-path "gitleaks.sarif"
+      - uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: "gitleaks.sarif"
+
+  # Todo: linter service account in tools namespace
+  # lint-chart:
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: tools
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: Authenticate to OpenShift Linter namespace
+  #       uses: redhat-actions/oc-login@v1
+  #       with:
+  #         openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+  #         openshift_token: ${{ secrets.OPENSHIFT_LINTER_TOKEN }}
+  #         insecure_skip_tls_verify: true
+  #     - run: make lint_chart

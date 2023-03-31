@@ -9,13 +9,13 @@ on:
     branches: [main]
 
 jobs:
-  # test:
-  #   uses: ./.github/workflows/test.yaml
-  #   secrets: inherit
+  test:
+    uses: ./.github/workflows/test.yaml
+    secrets: inherit
 
   deploy:
     # if: github.event.ref == 'refs/heads/main'
-    # needs: [test]
+    needs: [test]
     uses: ./.github/workflows/deploy-chart.yaml
     secrets:
       OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
