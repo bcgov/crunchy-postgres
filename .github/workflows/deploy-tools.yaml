@@ -8,7 +8,7 @@ on:
       NAMESPACE_PREFIX: { required: true }
 
 jobs:
-  helm_deploy:
+  deploy-to-openshift-tools:
     runs-on: ubuntu-latest
     environment:
       name: tools

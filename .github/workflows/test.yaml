@@ -15,7 +15,25 @@ jobs:
         with:
           sarif_file: "gitleaks.sarif"
 
-  lint-chart:
+  lint-tools-chart:
+    runs-on: ubuntu-latest
+    environment:
+      name: tools
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Authenticate to OpenShift Linter namespace
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_LINTER_TOKEN }}
+          insecure_skip_tls_verify: true
+      - run: |
+          set -euo pipefail; \
+          helm dep up ./operations/deployment/tools; \
+          helm template -f ./operations/deployment/tools/values.yaml crunchy-postgres ./operations/deployment/tools --validate;
+
+  lint-crunchy-postgres-chart:
     runs-on: ubuntu-latest
     environment:
       name: tools
