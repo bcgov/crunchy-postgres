@@ -7,60 +7,88 @@ deployer:
 networkPolicies:
   enabled: true
 
+crunchyImage: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres:centos8-14.1-0
+postgresVersion: 14
+
 # Postgres Cluster resource values:
-exporter:
-  requests:
-    cpu: 1m
-    memory: 64Mi
-  limits:
-    cpu: 50m
-    memory: 128Mi
+pgmonitor:
+  exporter:
+    image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres-exporter:ubi8-5.0.4-0
+    requests:
+      cpu: 1m
+      memory: 64Mi
+    limits:
+      cpu: 50m
+      memory: 128Mi
 
 instances:
   name: crunchy-postgres
   replicas: 3
-  requests:
-    cpu: 1m
-    memory: 256Mi
-  limits:
-    cpu: 100m
-    memory: 512Mi
-
-replicaCertCopy:
-  requests:
-    cpu: 1m
-    memory: 32Mi
-  limits:
-    cpu: 50m
-    memory: 64Mi
+  resources:
+    requests:
+      cpu: 1m
+      memory: 256Mi
+    limits:
+      cpu: 100m
+      memory: 512Mi
+  sidecars:
+    replicaCertCopy:
+      resources:
+        requests:
+          cpu: 1m
+          memory: 32Mi
+        limits:
+          cpu: 50m
+          memory: 64Mi
 
 dataVolumeClaimSpec:
   storage: 256Mi
 
 pgbackrest:
-  requests:
-    cpu: 1m
-    memory: 64Mi
-  limits:
-    cpu: 50m
-    memory: 128Mi
-  volume:
-    storage: 256Mi
-    storageClassName: netapp-file-backup
-  repoHost:
-    requests:
-      cpu: 2m
-      memory: 64Mi
-    limits:
-      cpu: 50m
-      memory: 128Mi
+  image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-pgbackrest:centos8-2.36-0
   retention: "30"
+  repos:
+    name: repo1
+    schedules:
+      full: 0 8 * * *
+      incremental: 0 0,4,12,16,20 * * *
+    volume:
+      storage: 256Mi
+      storageClassName: netapp-file-backup
+  repoHost:
+    resources:
+      requests:
+        cpu: 1m
+        memory: 64Mi
+      limits:
+        cpu: 50m
+        memory: 128Mi
+  sidecars:
+    resources:
+      requests:
+        cpu: 1m
+        memory: 64Mi
+      limits:
+        cpu: 50m
+        memory: 128Mi
 
-pgBouncer:
-  replicas: 2
-  requests:
-    cpu: 2m
-    memory: 16Mi
-  limits:
-    cpu: 50m
-    memory: 32Mi
+patroni:
+  postgresql:
+    parameters:
+      shared_buffers: 16MB # default is 128MB; a good tuned default for shared_buffers is 25% of the memory allocated to the pod
+      wal_buffers: "-1" # automatically set as 1/32 of shared_buffers or 64kB, whichever is larger
+      min_wal_size: 32MB
+      max_wal_size: 128MB # default is 1GB
+      max_slot_wal_keep_size: 256MB # default is -1, allowing unlimited wal growth when replicas fall behind
+
+proxy:
+  pgBouncer:
+    image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-pgbouncer:centos8-1.16-0
+    replicas: 2
+    resources:
+      requests:
+        cpu: 2m
+        memory: 16Mi
+      limits:
+        cpu: 50m
+        memory: 32Mi
