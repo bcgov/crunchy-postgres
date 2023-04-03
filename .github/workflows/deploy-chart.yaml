@@ -8,11 +8,19 @@ on:
       OPENSHIFT_TOKEN: { required: true }
       OPENSHIFT_NAMESPACE: { required: true }
       OPENSHIFT_ROUTE: { required: true }
+      NAMESPACE_PREFIX: { required: true }
 
 env:
   TAG: sha-${{ github.sha }}
 
 jobs:
+  deploy-tools:
+    uses: ./.github/workflows/deploy-tools.yaml
+    secrets:
+      OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
+      OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
+      NAMESPACE_PREFIX: ${{ secrets.NAMESPACE_PREFIX }}
+
   deploy-to-openshift-development:
     runs-on: ubuntu-latest
     environment:

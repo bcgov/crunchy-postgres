@@ -13,13 +13,6 @@ jobs:
     uses: ./.github/workflows/test.yaml
     secrets: inherit
 
-  deploy-tools:
-    uses: ./.github/workflows/deploy-tools.yaml
-    secrets:
-      OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
-      OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
-      NAMESPACE_PREFIX: ${{ secrets.NAMESPACE_PREFIX }}
-
   deploy:
     # if: github.event.ref == 'refs/heads/main'
     needs: [test]
@@ -29,3 +22,4 @@ jobs:
       OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
       OPENSHIFT_NAMESPACE: ${{ secrets.OPENSHIFT_NAMESPACE }}
       OPENSHIFT_ROUTE: ${{ secrets.OPENSHIFT_ROUTE }}
+      NAMESPACE_PREFIX: ${{ secrets.NAMESPACE_PREFIX }}
