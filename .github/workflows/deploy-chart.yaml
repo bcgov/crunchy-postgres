@@ -34,6 +34,7 @@ jobs:
         with:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+          openshift_route: ${{ secrets.OPENSHIFT_ROUTE }}
           openshift_namespace: ${{ secrets.OPENSHIFT_NAMESPACE }}
 
   deploy-to-openshift-test:
@@ -50,6 +51,7 @@ jobs:
         with:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+          openshift_route: ${{ secrets.OPENSHIFT_ROUTE }}
           openshift_namespace: ${{ secrets.OPENSHIFT_NAMESPACE }}
 
   deploy-to-openshift-production:
@@ -66,4 +68,5 @@ jobs:
         with:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+          openshift_route: ${{ secrets.OPENSHIFT_ROUTE }}
           openshift_namespace: ${{ secrets.OPENSHIFT_NAMESPACE }}

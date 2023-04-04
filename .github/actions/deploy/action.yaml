@@ -11,6 +11,9 @@ inputs:
   openshift_namespace:
     description: "The namespace being deployed to"
     required: true
+  openshift_route:
+    description: "Domain where the application can be accessed"
+    required: true
 
 runs:
   using: composite
@@ -21,13 +24,14 @@ runs:
         openshift_server_url: ${{ inputs.openshift_server_url }}
         openshift_token: ${{ inputs.openshift_token }}
         openshift_namespace: ${{ inputs.openshift_namespace }}
+        openshift_route: ${{ inputs.openshift_route }}
 
         insecure_skip_tls_verify: true
     - run: |
         cd operations/deployment/crunchy-postgres
         helm dep up
         helm upgrade --install --atomic "$@" crunchy-postgres . --timeout=8m0s -n ${{ inputs.openshift_namespace }} \
-        --set clusterOptions.route.host=${{ inputs.openshift_namespace }} \
+        --set clusterOptions.route.host=${{ inputs.openshift_route }} \
         --values values-repo.yaml
 
       shell: bash
