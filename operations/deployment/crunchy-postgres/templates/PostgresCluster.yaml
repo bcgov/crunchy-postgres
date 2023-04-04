@@ -34,6 +34,7 @@ spec:
         resources:
           requests:
             storage: {{ .Values.userInterface.pgAdmin.dataVolumeClaimSpec.requests.storage }}
+        
     {{ end }}
 
   instances:
