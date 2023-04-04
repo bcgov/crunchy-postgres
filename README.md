@@ -1,10 +1,13 @@
-# Application Name
+[![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)](Redirect-URL)
+
+# Crunchy Postgres Helm charts
 
 ## What am I?
 
-I am a template repo for use by the platform services team to encourage consistency in documentation and repo layout. For those using me, do not feel like you are *required* to adhere to this layout if you feel something better would suit the needs of your application or service. Find more information about this template [here](https://github.com/bcgov-c/platform-services-docs/blob/main/repo-organization.md)
+I am a template repo for use by the platform services team to encourage consistency in documentation and repo layout. For those using me, do not feel like you are _required_ to adhere to this layout if you feel something better would suit the needs of your application or service. Find more information about this template [here](https://github.com/bcgov-c/platform-services-docs/blob/main/repo-organization.md)
 
 **Sadly, topics are not automatically imported when creating a repository from a template. Ensure you include the following topics:**
+
 - `citz`
 - `devops`
 - `platform-services`
@@ -26,4 +29,3 @@ If this is a deployment of a vendored product, include some links to relevant re
 ## Repo Overview
 
 Tell me where to find important stuff in this repo and provide some info about the layout.
-
