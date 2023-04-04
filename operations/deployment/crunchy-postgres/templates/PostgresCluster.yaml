@@ -8,6 +8,8 @@ spec:
     labels: {{ include "crunchy-postgres.labels" . | nindent 6 }}
   image: {{ .Values.crunchyImage }}
   postgresVersion: {{ .Values.postgresVersion }}
+
+  {{ if .Values.monitoring.enabled }}
   monitoring:
     pgmonitor:
       # this stuff is for the "exporter" container in the "postgres-cluster-ha" set of pods
@@ -20,25 +22,39 @@ spec:
           limits:
             cpu: {{ .Values.pgmonitor.exporter.limits.cpu }}
             memory: {{ .Values.pgmonitor.exporter.limits.memory }}
+  {{ end }}
+
+  {{ if .Values.userInterface.enabled }}
+  userInterface:
+    pgAdmin:
+      image: {{ .Values.userInterface.pgAdmin.image }}
+      dataVolumeClaimSpec:
+        accessModes:
+        - {{ .Values.userInterface.pgAdmin.dataVolumeClaimSpec.accessModes }}
+        resources:
+          requests:
+            storage: {{ .Values.userInterface.pgAdmin.dataVolumeClaimSpec.requests.storage }}
+    {{ end }}
+
   instances:
     - name: {{ .Values.instances.name }}
       replicas: {{ .Values.instances.replicas }}
       resources:
         requests:
-          cpu: {{ .Values.instances.resources.requests.cpu }}
-          memory: {{ .Values.instances.resources.requests.memory }}
+          cpu: {{ .Values.instances.requests.cpu }}
+          memory: {{ .Values.instances.requests.memory }}
         limits:
-          cpu: {{ .Values.instances.resources.limits.cpu }}
-          memory: {{ .Values.instances.resources.limits.memory }}
+          cpu: {{ .Values.instances.limits.cpu }}
+          memory: {{ .Values.instances.limits.memory }}
       sidecars:
         replicaCertCopy:
           resources:
             requests:
-              cpu: {{ .Values.instances.sidecars.replicaCertCopy.resources.requests.cpu }}
-              memory: {{ .Values.instances.sidecars.replicaCertCopy.resources.requests.memory }}
+              cpu: {{ .Values.instances.sidecars.replicaCertCopy.requests.cpu }}
+              memory: {{ .Values.instances.sidecars.replicaCertCopy.requests.memory }}
             limits:
-              cpu: {{ .Values.instances.sidecars.replicaCertCopy.resources.limits.cpu }}
-              memory: {{ .Values.instances.sidecars.replicaCertCopy.resources.limits.memory }}
+              cpu: {{ .Values.instances.sidecars.replicaCertCopy.limits.cpu }}
+              memory: {{ .Values.instances.sidecars.replicaCertCopy.limits.memory }}
       dataVolumeClaimSpec:
         accessModes:
           - "ReadWriteOnce"
@@ -84,30 +100,46 @@ spec:
                   storage: {{ .Values.pgbackrest.repos.volume.storage }}
               storageClassName:
                 {{ .Values.pgbackrest.repos.volume.storageClassName }}
+          
+          # Storage buckets backup
+          {{- if .Values.pgbackrest.repos.s3.enabled }}
+          s3:
+            bucket: {{ .Values.pgbackrest.repos.s3.bucket | quote }}
+            endpoint: {{ .Values.pgbackrest.repos.s3.endpoint | quote }}
+            region: {{ .Values.pgbackrest.repos.s3.s3.region | quote }}
+          {{- end }}
+          {{- if .Values.pgbackrest.repos.gcs.enabled }}
+          gcs:
+            bucket: {{ .Values.pgbackrest.repos.gcs.bucket | quote }}
+          {{- end }}
+          {{- if .Values.pgbackrest.repos.azure.enabled }}
+          azure:
+            container: {{ .Values.pgbackrest.repos.azure.container | quote }}
+          {{- end }}
       # this stuff is for the "pgbackrest" container (the only non-init container) in the "postgres-crunchy-repo-host" pod
       repoHost:
         resources:
           requests:
-            cpu: {{ .Values.pgbackrest.repoHost.resources.requests.cpu }}
-            memory: {{ .Values.pgbackrest.repoHost.resources.requests.memory }}
+            cpu: {{ .Values.pgbackrest.repoHost.requests.cpu }}
+            memory: {{ .Values.pgbackrest.repoHost.requests.memory }}
           limits:
-            cpu: {{ .Values.pgbackrest.repoHost.resources.limits.cpu }}
-            memory: {{ .Values.pgbackrest.repoHost.resources.limits.memory }}
+            cpu: {{ .Values.pgbackrest.repoHost.limits.cpu }}
+            memory: {{ .Values.pgbackrest.repoHost.limits.memory }}
       sidecars:
         # this stuff is for the "pgbackrest" container in the "postgres-crunchy-ha" set of pods
         pgbackrest:
           resources:
             requests:
-              cpu: {{ .Values.pgbackrest.sidecars.resources.requests.cpu }}
-              memory: {{ .Values.pgbackrest.sidecars.resources.requests.memory }}
+              cpu: {{ .Values.pgbackrest.sidecars.requests.cpu }}
+              memory: {{ .Values.pgbackrest.sidecars.requests.memory }}
             limits:
-              cpu: {{ .Values.pgbackrest.sidecars.resources.limits.cpu }}
-              memory: {{ .Values.pgbackrest.sidecars.resources.limits.memory }}
+              cpu: {{ .Values.pgbackrest.sidecars.limits.cpu }}
+              memory: {{ .Values.pgbackrest.sidecars.limits.memory }}
   patroni:
     dynamicConfiguration:
       postgresql:
         pg_hba:
-          - "host all all 0.0.0.0/0 md5"
+          - {{ .Values.patroni.postgresql.pg_hba}}
         parameters:
           shared_buffers: {{ .Values.patroni.postgresql.parameters.shared_buffers }}
           wal_buffers: {{ .Values.patroni.postgresql.parameters.wal_buffers }}
@@ -121,15 +153,15 @@ spec:
           client_tls_sslmode: disable
       image: {{ .Values.proxy.pgBouncer.image }}
       replicas: {{ .Values.proxy.pgBouncer.replicas }}
-      # these resources are for the "pgbouncer" container in the "hippo-ha-pgbouncer" set of pods
+      # these resources are for the "pgbouncer" container in the "postgres-crunchy-ha-pgbouncer" set of pods
       # there is a sidecar in these pods which are not mentioned here, but the requests/limits are teeny weeny by default so no worries there.
       resources:
         requests:
-          cpu: {{ .Values.proxy.pgBouncer.resources.requests.cpu }}
-          memory: {{ .Values.proxy.pgBouncer.resources.requests.memory }}
+          cpu: {{ .Values.proxy.pgBouncer.requests.cpu }}
+          memory: {{ .Values.proxy.pgBouncer.requests.memory }}
         limits:
-          cpu: {{ .Values.proxy.pgBouncer.resources.limits.cpu }}
-          memory: {{ .Values.proxy.pgBouncer.resources.limits.memory }}
+          cpu: {{ .Values.proxy.pgBouncer.limits.cpu }}
+          memory: {{ .Values.proxy.pgBouncer.limits.memory }}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

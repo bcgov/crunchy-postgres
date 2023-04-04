@@ -26,6 +26,7 @@ runs:
     - run: |
         cd operations/deployment/crunchy-postgres
         helm dep up
-        helm upgrade --install --atomic -f ./values.yaml "$@" crunchy-postgres . --timeout=8m0s -n ${{ inputs.openshift_namespace }}
+        helm upgrade --install --atomic "$@" crunchy-postgres . --timeout=8m0s -n ${{ inputs.openshift_namespace }} \
+        --values values-repo.yaml
 
       shell: bash

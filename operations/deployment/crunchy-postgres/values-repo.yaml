@@ -1,0 +1,9 @@
+deployer:
+  serviceAccount:
+    enabled: true
+
+networkPolicies:
+  enabled: true
+
+monitoring:
+  enabled: true
