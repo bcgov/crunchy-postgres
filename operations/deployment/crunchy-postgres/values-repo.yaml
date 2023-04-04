@@ -1,9 +1,12 @@
-deployer:
-  serviceAccount:
+clusterOptions:
+  deployer:
+    serviceAccount:
+      enabled: true
+  linter:
+    serviceAccount:
+      enabled: true
+  networkPolicies:
     enabled: true
-
-networkPolicies:
-  enabled: true
-
-monitoring:
-  enabled: true
+  route:
+    enabled: true
+    host:

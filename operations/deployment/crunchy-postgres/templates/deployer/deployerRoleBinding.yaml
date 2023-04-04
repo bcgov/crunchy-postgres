@@ -1,4 +1,4 @@
-{{ if .Values.deployer.serviceAccount.enabled }}
+{{ if .Values.clusterOptions.deployer.serviceAccount.enabled }}
 
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1

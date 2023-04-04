@@ -1,14 +1,16 @@
 fullnameOverride: crunchy-postgres
 
-deployer:
-  serviceAccount:
+clusterOptions:
+  deployer:
+    serviceAccount:
+      enabled: false
+  networkPolicies:
     enabled: false
-
-networkPolicies:
-  enabled: false
-
-monitoring:
-  enabled: false
+  route:
+    enabled: false
+    host:
+  monitoring:
+    enabled: false
 
 userInterface:
   enabled: false

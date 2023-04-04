@@ -9,7 +9,7 @@ spec:
   image: {{ .Values.crunchyImage }}
   postgresVersion: {{ .Values.postgresVersion }}
 
-  {{ if .Values.monitoring.enabled }}
+  {{ if .Values.clusterOptions.monitoring.enabled }}
   monitoring:
     pgmonitor:
       # this stuff is for the "exporter" container in the "postgres-cluster-ha" set of pods
