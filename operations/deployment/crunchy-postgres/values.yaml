@@ -34,6 +34,19 @@ crunchyImage: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres:
 # https://access.crunchydata.com/documentation/postgres-operator/v5/architecture/pgadmin4/
 postgresVersion: 14
 
+postgres:
+  # List that allows an undefined amount of new users to be created
+  # Be sure to changed the 'crunchy-postgres' database name if you changed the fullNameOverride variable
+  extraUsers:
+    enabled: false
+    users: |
+      - name: extra-user-1
+        databases:
+          - crunchy-postgres
+        options: "CREATEROLE"
+      - name: extra-user-2
+        databases:
+          - crunchy-postgres
 # Postgres Cluster resource values:
 pgmonitor:
   enabled: false

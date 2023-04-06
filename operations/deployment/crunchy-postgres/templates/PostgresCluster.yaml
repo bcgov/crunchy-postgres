@@ -87,6 +87,12 @@ spec:
     - name: postgres
       databases:
         - {{ template "crunchy-postgres.fullname" . }}
+  {{- if .Values.postgres.extraUsers.enabled }}
+    {{- with .Values.postgres.extraUsers.users }}
+    {{- toYaml . | indent 2 }}
+    {{- end }}
+  {{- end }}
+
   backups:
     pgbackrest:
       image: {{ .Values.pgbackrest.image }}
