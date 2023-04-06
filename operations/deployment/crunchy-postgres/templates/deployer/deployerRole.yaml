@@ -1,4 +1,4 @@
-{{ if .Values.clusterOptions.deployer.serviceAccount.enabled }}
+{{ if .Values.deployer.serviceAccount.enabled }}
 
 apiVersion: authorization.openshift.io/v1
 kind: Role

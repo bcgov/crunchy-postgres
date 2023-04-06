@@ -1,4 +1,5 @@
 {{ if .Values.userInterface.enabled }}
+
 # Port forwarding so we can access pgAdmin console if enabled
 # https://access.crunchydata.com/documentation/postgres-operator/v5/architecture/pgadmin4/
 apiVersion: batch/v1
@@ -28,4 +29,5 @@ spec:
       - name: post-install-job
         image: "alpine:3.3"
         command: kubectl port-forward svc/{{ .Release.Name }}-pgadmin 5050:5050
+        
   {{ end }}

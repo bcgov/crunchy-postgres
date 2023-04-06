@@ -1,4 +1,5 @@
-{{- if .Values.clusterOptions.networkPolicies.enabled }}
+{{- if .Values.networking.podNetworkPolicy.enabled }}
+
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
@@ -6,12 +7,10 @@ metadata:
   labels:
 {{ include "crunchy-postgres.labels" . | indent 4}}
 spec:
-  # This policy allows any pod with a route & service combination
-  # to accept traffic from the OpenShift router pods. This is
-  # required for things outside of OpenShift (like the Internet)
-  # to reach your pods.
+  # This policy allows pods to accept traffic from other pods in this namespace
   ingress:
     - from:
         - podSelector: {}
   podSelector: {}
+
 {{ end }}

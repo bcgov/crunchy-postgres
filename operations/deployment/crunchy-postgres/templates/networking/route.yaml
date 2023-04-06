@@ -1,4 +1,5 @@
-{{- if .Values.clusterOptions.networkPolicies.enabled }}
+{{- if .Values.networking.networkPolicy.enabled }}
+
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
@@ -6,7 +7,7 @@ metadata:
   labels:
 {{ include "crunchy-postgres.labels" . | indent 4}}
 spec:
-  host: {{ .Values.clusterOptions.route.host }}
+  host: {{ .Values.networking.route.host }}
   port:
     targetPort: {{ template "crunchy-postgres.fullname" . }}
   tls:
@@ -16,4 +17,5 @@ spec:
     kind: Service
     name: {{ template "crunchy-postgres.fullname" . }}
     weight: 100
+
 {{ end }}

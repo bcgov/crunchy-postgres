@@ -1,12 +1,15 @@
-clusterOptions:
-  deployer:
-    serviceAccount:
-      enabled: true
-  linter:
-    serviceAccount:
-      enabled: true
-  networkPolicies:
+deployer:
+  serviceAccount:
+    enabled: true
+
+networking:
+  networkPolicy:
+    enabled: true
+  podNetworkPolicy:
     enabled: true
   route:
     enabled: true
     host:
+
+pgmonitor:
+  enabled: true

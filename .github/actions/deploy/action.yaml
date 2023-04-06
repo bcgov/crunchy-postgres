@@ -31,7 +31,7 @@ runs:
         cd operations/deployment/crunchy-postgres
         helm dep up
         helm upgrade --install --atomic "$@" crunchy-postgres . --timeout=8m0s -n ${{ inputs.openshift_namespace }} \
-        --set clusterOptions.route.host=${{ inputs.openshift_route }} \
+        --set networking.route.host=${{ inputs.openshift_route }} \
         --values values-repo.yaml
 
       shell: bash
