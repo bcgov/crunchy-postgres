@@ -93,7 +93,7 @@ spec:
       global:
         # hardcoding repo1 until we solution allowing multiple repos
         repo1-retention-full: {{ .Values.pgbackrest.retention | quote }}
-        retention-full-type: {{ .Values.pgbackrest.retentionFullType }}
+        repo1-retention-full-type: {{ .Values.pgbackrest.retentionFullType }}
 
       repos:
         # hardcoding repo1 until we solution allowing multiple repos
