@@ -1,0 +1,188 @@
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: {{ template "crunchy-postgres.fullname" . }}
+  labels: {{ include "crunchy-postgres.labels" . | nindent 4 }}
+spec:
+  metadata:
+    labels: {{ include "crunchy-postgres.labels" . | nindent 6 }}
+  image: {{ .Values.crunchyImage }}
+  postgresVersion: {{ .Values.postgresVersion }}
+
+  {{ if .Values.pgmonitor.enabled }}
+
+  monitoring:
+    pgmonitor:
+      # this stuff is for the "exporter" container in the "postgres-cluster-ha" set of pods
+      exporter:
+        image: {{ .Values.pgmonitor.exporter.image}}
+        resources:
+          requests:
+            cpu: {{ .Values.pgmonitor.exporter.requests.cpu }}
+            memory: {{ .Values.pgmonitor.exporter.requests.memory }}
+          limits:
+            cpu: {{ .Values.pgmonitor.exporter.limits.cpu }}
+            memory: {{ .Values.pgmonitor.exporter.limits.memory }}
+
+  {{ end }}
+
+  # This requires PG0 v5.1.0
+  # https://github.com/CrunchyData/postgres-operator/issues/3032
+  {{ if .Values.userInterface.enabled }}
+
+  userInterface:
+    pgAdmin:
+      image: {{ .Values.userInterface.pgAdmin.image }}
+      dataVolumeClaimSpec:
+        accessModes:
+        - {{ .Values.userInterface.pgAdmin.dataVolumeClaimSpec.accessModes }}
+        resources:
+          requests:
+            storage: {{ .Values.userInterface.pgAdmin.dataVolumeClaimSpec.requests.storage }}
+        
+  {{ end }}
+
+  instances:
+    - name: {{ .Values.instances.name }}
+      replicas: {{ .Values.instances.replicas }}
+      resources:
+        requests:
+          cpu: {{ .Values.instances.requests.cpu }}
+          memory: {{ .Values.instances.requests.memory }}
+        limits:
+          cpu: {{ .Values.instances.limits.cpu }}
+          memory: {{ .Values.instances.limits.memory }}
+      sidecars:
+        replicaCertCopy:
+          resources:
+            requests:
+              cpu: {{ .Values.instances.sidecars.replicaCertCopy.requests.cpu }}
+              memory: {{ .Values.instances.sidecars.replicaCertCopy.requests.memory }}
+            limits:
+              cpu: {{ .Values.instances.sidecars.replicaCertCopy.limits.cpu }}
+              memory: {{ .Values.instances.sidecars.replicaCertCopy.limits.memory }}
+      dataVolumeClaimSpec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: {{ .Values.dataVolumeClaimSpec.storage }}
+        storageClassName: netapp-block-standard
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    postgres-operator.crunchydata.com/cluster:
+                      {{ template "crunchy-postgres.fullname" . }}
+                    postgres-operator.crunchydata.com/instance-set: {{ .Values.instances.name }}-ha
+  users:
+    - name: {{ template "crunchy-postgres.fullname" . }}
+      databases:
+        - {{ template "crunchy-postgres.fullname" . }}
+      options: "CREATEROLE"
+    - name: postgres
+      databases:
+        - {{ template "crunchy-postgres.fullname" . }}
+  backups:
+    pgbackrest:
+      image: {{ .Values.pgbackrest.image }}
+      global:
+        # hardcoding repo1 until we solution allowing multiple repos
+        repo1-retention-full: {{ .Values.pgbackrest.retention | quote }}
+        repo1-retention-full-type: {{ .Values.pgbackrest.retentionFullType }}
+
+      repos:
+        # hardcoding repo1 until we solution allowing multiple repos
+        - name: repo1
+          schedules:
+            full: {{ .Values.pgbackrest.repos.schedules.full }}
+            incremental: {{ .Values.pgbackrest.repos.schedules.incremental }}
+          volume:
+            volumeClaimSpec:
+              accessModes:
+                - {{ .Values.pgbackrest.repos.volume.accessModes }}
+              resources:
+                requests:
+                  storage: {{ .Values.pgbackrest.repos.volume.storage }}
+              storageClassName:
+                {{ .Values.pgbackrest.repos.volume.storageClassName }}
+          
+          # Storage buckets backup
+          {{- if .Values.pgbackrest.repos.s3.enabled }}
+          s3:
+            bucket: {{ .Values.pgbackrest.repos.s3.bucket | quote }}
+            endpoint: {{ .Values.pgbackrest.repos.s3.endpoint | quote }}
+            region: {{ .Values.pgbackrest.repos.s3.s3.region | quote }}
+          {{- end }}
+
+          {{- if .Values.pgbackrest.repos.gcs.enabled }}
+          gcs:
+            bucket: {{ .Values.pgbackrest.repos.gcs.bucket | quote }}
+          {{- end }}
+
+          {{- if .Values.pgbackrest.repos.azure.enabled }}
+          azure:
+            container: {{ .Values.pgbackrest.repos.azure.container | quote }}
+          {{- end }}
+
+      # this stuff is for the "pgbackrest" container (the only non-init container) in the "postgres-crunchy-repo-host" pod
+      repoHost:
+        resources:
+          requests:
+            cpu: {{ .Values.pgbackrest.repoHost.requests.cpu }}
+            memory: {{ .Values.pgbackrest.repoHost.requests.memory }}
+          limits:
+            cpu: {{ .Values.pgbackrest.repoHost.limits.cpu }}
+            memory: {{ .Values.pgbackrest.repoHost.limits.memory }}
+      sidecars:
+        # this stuff is for the "pgbackrest" container in the "postgres-crunchy-ha" set of pods
+        pgbackrest:
+          resources:
+            requests:
+              cpu: {{ .Values.pgbackrest.sidecars.requests.cpu }}
+              memory: {{ .Values.pgbackrest.sidecars.requests.memory }}
+            limits:
+              cpu: {{ .Values.pgbackrest.sidecars.limits.cpu }}
+              memory: {{ .Values.pgbackrest.sidecars.limits.memory }}
+  patroni:
+    dynamicConfiguration:
+      postgresql:
+        pg_hba:
+          - {{ .Values.patroni.postgresql.pg_hba}}
+        parameters:
+          shared_buffers: {{ .Values.patroni.postgresql.parameters.shared_buffers }}
+          wal_buffers: {{ .Values.patroni.postgresql.parameters.wal_buffers }}
+          min_wal_size: {{ .Values.patroni.postgresql.parameters.min_wal_size }}
+          max_wal_size: {{ .Values.patroni.postgresql.parameters.max_wal_size }}
+          max_slot_wal_keep_size:  {{ .Values.patroni.postgresql.parameters.max_slot_wal_keep_size }}
+  proxy:
+    pgBouncer:
+      config:
+        global:
+          client_tls_sslmode: disable
+      image: {{ .Values.proxy.pgBouncer.image }}
+      replicas: {{ .Values.proxy.pgBouncer.replicas }}
+      # these resources are for the "pgbouncer" container in the "postgres-crunchy-ha-pgbouncer" set of pods
+      # there is a sidecar in these pods which are not mentioned here, but the requests/limits are teeny weeny by default so no worries there.
+      resources:
+        requests:
+          cpu: {{ .Values.proxy.pgBouncer.requests.cpu }}
+          memory: {{ .Values.proxy.pgBouncer.requests.memory }}
+        limits:
+          cpu: {{ .Values.proxy.pgBouncer.limits.cpu }}
+          memory: {{ .Values.proxy.pgBouncer.limits.memory }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    postgres-operator.crunchydata.com/cluster:
+                      {{ .Values.instances.name }}
+                    postgres-operator.crunchydata.com/role: pgbouncer
