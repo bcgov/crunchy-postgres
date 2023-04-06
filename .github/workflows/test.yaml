@@ -30,8 +30,8 @@ jobs:
           insecure_skip_tls_verify: true
       - run: |
           set -euo pipefail; \
-          helm dep up ./operations/deployment/tools; \
-          helm template -f ./operations/deployment/tools/values.yaml crunchy-postgres ./operations/deployment/tools --validate;
+          helm dep up ./operations/pipeline/tools; \
+          helm template -f ./operations/pipeline/tools/values.yaml crunchy-postgres ./operations/pipeline/tools --validate;
 
   lint-crunchy-postgres-chart:
     runs-on: ubuntu-latest
