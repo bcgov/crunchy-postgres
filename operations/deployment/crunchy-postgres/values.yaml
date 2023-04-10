@@ -4,6 +4,12 @@ deployer:
   serviceAccount:
     enabled: false
 
+crunchyImage: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres:centos8-14.1-0
+
+# If userInterface is enabled it is important to know that pgAdmin is currently incompatible with Postgresql 15
+# https://access.crunchydata.com/documentation/postgres-operator/v5/architecture/pgadmin4/
+postgresVersion: 14
+
 networking:
   # Network policy to allow traffic from outside the namespace (like the internet)
   networkPolicy:
@@ -28,12 +34,6 @@ userInterface:
       requests:
         storage: 256Mi
 
-crunchyImage: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres:centos8-14.1-0
-
-# If userInterface is enabled it is important to know that pgAdmin is currently incompatible with Postgresql 15
-# https://access.crunchydata.com/documentation/postgres-operator/v5/architecture/pgadmin4/
-postgresVersion: 14
-
 # Postgres Cluster resource values:
 pgmonitor:
   enabled: false
@@ -49,6 +49,8 @@ pgmonitor:
 instances:
   name: ha # high availability
   replicas: 3
+  dataVolumeClaimSpec:
+    storage: 256Mi
   requests:
     cpu: 1m
     memory: 256Mi
@@ -63,9 +65,6 @@ instances:
       limits:
         cpu: 50m
         memory: 64Mi
-
-dataVolumeClaimSpec:
-  storage: 256Mi
 
 pgbackrest:
   image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-pgbackrest:centos8-2.36-0
@@ -82,6 +81,7 @@ pgbackrest:
       accessModes: "ReadWriteOnce"
       storage: 256Mi
       storageClassName: netapp-file-backup
+    # Cloud backups only available with PGO v5.0.5 and up
     s3:
       enabled: false
       bucket:

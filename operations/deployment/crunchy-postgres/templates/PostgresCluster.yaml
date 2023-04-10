@@ -66,7 +66,7 @@ spec:
           - "ReadWriteOnce"
         resources:
           requests:
-            storage: {{ .Values.dataVolumeClaimSpec.storage }}
+            storage: {{ .Values.instances.dataVolumeClaimSpec.storage }}
         storageClassName: netapp-block-standard
       affinity:
         podAntiAffinity:
