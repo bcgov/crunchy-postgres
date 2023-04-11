@@ -4,17 +4,6 @@ deployer:
   serviceAccount:
     enabled: false
 
-networking:
-  # Network policy to allow traffic from outside the namespace (like the internet)
-  networkPolicy:
-    enabled: false
-  # Pod network policy to allow pods to accept traffic from other pods in this namespace
-  podNetworkPolicy:
-    enabled: false
-  route:
-    enabled: false
-    host:
-
   # This requires PGO v5.1.0
   # https://github.com/CrunchyData/postgres-operator/issues/3032
   # Also needs a route to be set as well as networkPolicy to be enabled to allow ingress to the interface

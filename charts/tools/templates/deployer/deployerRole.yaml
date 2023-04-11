@@ -10,6 +10,34 @@ metadata:
   name: {{ .Release.Name }}-deployer
 rules:
   - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - list
+      - get
+      - create
+      - update
+      - delete
+  - apiGroups:
+      - image.openshift.io
+    resources:
+      - imagestreamimages
+      - imagestreammappings
+      - imagestreams
+      - imagestreamtags
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+  - apiGroups:
+      - image.openshift.io
+    resources:
+      - imagestreamtags
+    verbs:
+      - delete
+  - apiGroups:
       - project.openshift.io
       - ""
     attributeRestrictions: null
@@ -75,6 +103,7 @@ rules:
     resources:
       - routes
     verbs:
+      - list
       - get
       - create
       - update
@@ -195,24 +224,22 @@ rules:
       - patch
       - delete
   - apiGroups:
-    - postgres-operator.crunchydata.com
+      - artifactory.devops.gov.bc.ca
     resources:
-    - postgresclusters
+      - artifactoryserviceaccounts
     verbs:
-    - get
-    - create
-    - update
-    - patch
-    - delete
+      - get
+      - list
   - apiGroups:
-    - ops.gov.bc.ca
+      - postgres-operator.crunchydata.com
     resources:
-    - sysdig-teams
+      - postgresclusters
     verbs:
-    - get
-    - create
-    - update
-    - patch
-    - delete
+      - get
+      - list
+      - create
+      - update
+      - patch
+      - delete
 
 {{ end }}

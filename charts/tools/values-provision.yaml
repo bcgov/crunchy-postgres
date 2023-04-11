@@ -2,6 +2,10 @@ deployer:
   serviceAccount:
     enabled: true
 
+linter:
+  serviceAccount:
+    enabled: true
+
 networking:
   networkPolicy:
     enabled: true
@@ -10,6 +14,3 @@ networking:
   route:
     enabled: true
     host:
-
-pgmonitor:
-  enabled: true
