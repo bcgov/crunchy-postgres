@@ -22,4 +22,4 @@ jobs:
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
           insecure_skip_tls_verify: true
       - run: |
-          helm upgrade crunchy-postgres-tools operations/pipeline/tools --install --atomic -n ${{ secrets.NAMESPACE_PREFIX }}-tools
+          helm upgrade crunchy-postgres-tools charts/tools --install --atomic -n ${{ secrets.NAMESPACE_PREFIX }}-tools

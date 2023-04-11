@@ -14,7 +14,6 @@ jobs:
     secrets: inherit
 
   deploy:
-    # if: github.event.ref == 'refs/heads/main'
     needs: [test]
     uses: ./.github/workflows/deploy-chart.yaml
     secrets:
