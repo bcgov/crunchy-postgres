@@ -1,4 +1,4 @@
-{{- if and .Values.networking.route.enabled (ne .Release.Namespace .Values.deployer.namespace) }}
+{{- if and .Values.networking.route.enabled (ne .Release.Namespace .Values.provisioner.namespace) }}
 
 apiVersion: route.openshift.io/v1
 kind: Route

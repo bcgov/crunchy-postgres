@@ -1,4 +1,4 @@
-{{- if and (.Values.linter.serviceAccount.enabled) (eq .Release.Namespace .Values.deployer.namespace) }}
+{{- if and (.Values.linter.serviceAccount.enabled) (eq .Release.Namespace .Values.provisioner.namespace) }}
 
 apiVersion: authorization.openshift.io/v1
 kind: Role

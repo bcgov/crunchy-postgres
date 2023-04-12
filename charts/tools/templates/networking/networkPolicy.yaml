@@ -1,9 +1,9 @@
-{{- if and .Values.networking.networkPolicy.enabled (ne .Release.Namespace .Values.deployer.namespace) }}
+{{- if and .Values.networking.networkPolicy.enabled (ne .Release.Namespace .Values.provisioner.namespace) }}
 
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-allow-route-ingress
+  name: {{ or .Values.deploymentName .Release.Name }}-allow-route-ingress
   labels:
 {{ include "crunchy-postgres-tools.labels" . | indent 4}}
 spec:

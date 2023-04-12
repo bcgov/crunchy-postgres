@@ -92,9 +92,8 @@ spec:
               resources:
                 requests:
                   storage: {{ .Values.pgbackrest.repos.volume.storage }}
-              storageClassName:
-                {{ .Values.pgbackrest.repos.volume.storageClassName }}
-          
+              storageClassName: {{ .Values.pgbackrest.repos.volume.storageClassName }}
+                
           # Storage buckets backup
           {{- if .Values.pgbackrest.repos.s3.enabled }}
           s3:

@@ -2,6 +2,11 @@ deployer:
   serviceAccount:
     enabled: true
 
+provisioner:
+  namespace: d8d909-tools
+  serviceAccount:
+    enabled: true
+
 linter:
   serviceAccount:
     enabled: true

@@ -1,7 +1,12 @@
 fullnameOverride: crunchy-postgres-tools
+deploymentName: crunchy-postgres
 
 deployer:
   namespace:
+  serviceAccount:
+    enabled: false
+
+provisioner:
   serviceAccount:
     enabled: false
 

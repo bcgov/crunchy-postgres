@@ -1,14 +1,13 @@
-{{ if .Values.deployer.serviceAccount.enabled }}
+{{ if .Values.provisioner.serviceAccount.enabled }}
 
 apiVersion: authorization.openshift.io/v1
 kind: Role
 metadata:
-  labels:
-{{ include "crunchy-postgres.labels" . | indent 4}}
+  labels: {{ include "crunchy-postgres-tools.labels" . | nindent 4}}
   annotations:
     openshift.io/description: A user who can deploy applications
     openshift.io/reconcile-protect: "false"
-  name: {{ .Release.Name }}-deployer
+  name: {{ .Release.Name }}-provisioner
 rules:
   - apiGroups:
       - image.openshift.io
@@ -109,6 +108,16 @@ rules:
       - create
   - apiGroups:
       - route.openshift.io
+    attributeRestrictions: null
+    resources:
+      - routes
+    verbs:
+      - get
+      - create
+      - update
+      - patch
+  - apiGroups:
+      - route.openshift.io
       - ""
     attributeRestrictions: null
     resources:
@@ -205,13 +214,22 @@ rules:
       - patch
       - delete
   - apiGroups:
-    - postgres-operator.crunchydata.com
+      - artifactory.devops.gov.bc.ca
     resources:
-    - postgresclusters
+      - artifactoryserviceaccounts
     verbs:
-    - get
-    - create
-    - update
-    - patch
-    - delete
+      - get
+      - list
+  - apiGroups:
+      - postgres-operator.crunchydata.com
+    resources:
+      - postgresclusters
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - patch
+      - delete
+
 {{ end }}
