@@ -1,4 +1,4 @@
-{{ if .Values.linter.serviceAccount.enabled }}
+{{- if and .Values.linter.serviceAccount.enabled (eq .Release.Namespace .Values.deployer.namespace) }}
 
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1

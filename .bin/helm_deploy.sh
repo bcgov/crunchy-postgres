@@ -81,7 +81,7 @@ for prefix in "${prefixes[@]}"; do
 
     namespace=$prefix-$suffix
     echo "Creating helm installation in $namespace namespace"
-    helm upgrade --install --atomic -f "$values_file" -n "$namespace" $dry_run "$chart_name" "$chart_path" 
+    helm upgrade --install --atomic -f "$values_file" -n "$namespace" $dry_run "$chart_name" "$chart_path" --set deployer.namespace=$prefix-tools
 
   done
 done

@@ -1,7 +1,7 @@
 fullnameOverride: crunchy-postgres-tools
 
 deployer:
-  namespace: d8d909-tools
+  namespace:
   serviceAccount:
     enabled: false
 
