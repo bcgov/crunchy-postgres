@@ -1,0 +1,21 @@
+fullnameOverride: crunchy-postgres-tools
+
+deployer:
+  namespace: d8d909-tools
+  serviceAccount:
+    enabled: false
+
+linter:
+  serviceAccount:
+    enabled: false
+
+networking:
+  # Network policy to allow traffic from outside the namespace (like the internet)
+  networkPolicy:
+    enabled: false
+  # Pod network policy to allow pods to accept traffic from other pods in this namespace
+  podNetworkPolicy:
+    enabled: false
+  route:
+    enabled: false
+    host:

@@ -26,22 +26,6 @@ spec:
 
   {{ end }}
 
-  # This requires PG0 v5.1.0
-  # https://github.com/CrunchyData/postgres-operator/issues/3032
-  {{ if .Values.userInterface.enabled }}
-
-  userInterface:
-    pgAdmin:
-      image: {{ .Values.userInterface.pgAdmin.image }}
-      dataVolumeClaimSpec:
-        accessModes:
-        - {{ .Values.userInterface.pgAdmin.dataVolumeClaimSpec.accessModes }}
-        resources:
-          requests:
-            storage: {{ .Values.userInterface.pgAdmin.dataVolumeClaimSpec.requests.storage }}
-        
-  {{ end }}
-
   instances:
     - name: {{ .Values.instances.name }}
       replicas: {{ .Values.instances.replicas }}

@@ -1,0 +1,9 @@
+deployer:
+  serviceAccount:
+    enabled: true
+
+pgmonitor:
+  enabled: true
+
+instances:
+  replicas: 2 # 2 for now as we only have 1Gi storage

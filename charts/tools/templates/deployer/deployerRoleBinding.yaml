@@ -4,7 +4,8 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: {{ .Release.Name }}-deployer
-  labels: {{ include "crunchy-postgres-tools.labels" . | nindent 4}}
+  labels:
+{{ include "crunchy-postgres-tools.labels" . | indent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -12,6 +13,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: {{ .Release.Name }}-deployer
-    namespace: {{ .Release.namespace }}
+    namespace: {{ .Values.deployer.namespace }}
+
 
 {{ end }}
