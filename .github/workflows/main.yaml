@@ -22,8 +22,3 @@ jobs:
       OPENSHIFT_NAMESPACE: ${{ secrets.OPENSHIFT_NAMESPACE }}
       OPENSHIFT_ROUTE: ${{ secrets.OPENSHIFT_ROUTE }}
       NAMESPACE_PREFIX: ${{ secrets.NAMESPACE_PREFIX }}
-
-  release-chart:
-    needs: [test]
-    uses: ./.github/workflows/release-chart.yaml
-    secrets: inherit
