@@ -18,4 +18,4 @@ networking:
     enabled: true
   route:
     enabled: true
-    host:
+    host: # to be passed in during deployment

@@ -2,7 +2,7 @@ fullnameOverride: crunchy-postgres-tools
 deploymentName: crunchy-postgres
 
 deployer:
-  namespace:
+  namespace: # d8d909-tools
   serviceAccount:
     enabled: false
 
@@ -23,4 +23,4 @@ networking:
     enabled: false
   route:
     enabled: false
-    host:
+    host: # eg: crunchy-postgres.apps.silver.devops.gov.bc.ca
