@@ -1,5 +1,9 @@
 name: Release Yaml
 
+# There is definitely room to streamline this release process though for now this is being called on push tags:
+# eg: git tag -a raw-yaml-v.0.2.0 -m "Release v0.2.0"
+#     git push --tags
+
 on:
   push:
     tags:
@@ -27,3 +31,8 @@ jobs:
           asset_name: crunchy-postgres-yaml.zip
           tag: ${{ github.ref }}
           overwrite: true
+
+  release-chart:
+    needs: [release-yaml]
+    uses: ./.github/workflows/release-chart.yaml
+    secrets: inherit
