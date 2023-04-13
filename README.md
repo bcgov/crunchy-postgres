@@ -10,7 +10,7 @@ Once that is approved and merged you must tag and push the tag for the action to
 
 ```
 git checkout main
-git tag -a raw-yaml-v.0.2.0 -m "Release v0.2.0"
+git tag -a crunchy-postgres-raw-yaml-v.0.2.0 -m "Release v0.2.0"
 git push --tags
 ```
 
