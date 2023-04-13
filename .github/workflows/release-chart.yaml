@@ -1,6 +1,6 @@
 name: Release Chart
 
-on: release
+on: workflow_call
 
 jobs:
   release-chart:
@@ -27,23 +27,3 @@ jobs:
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_SKIP_EXISTING: true
-
-  release-yaml:
-    name: Eject yaml and upload to release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Pull source
-        uses: actions/checkout@v1
-
-      - name: Eject charts
-        run: |
-          helm template --output-dir ./yaml ./charts/crunchy-postgres
-          helm template --output-dir ./yaml ./charts/tools
-          zip crunchy-postgres-release.zip ./yaml/**/templates/*.yaml ./yaml/**/templates/**/*.yaml -r
-
-      - name: Upload to release
-        uses: JasonEtco/upload-to-release@master
-        with:
-          args: crunchy-postgres-release.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

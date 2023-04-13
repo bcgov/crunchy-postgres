@@ -1,0 +1,29 @@
+name: Release Yaml
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  release-yaml:
+    name: Eject yaml and upload to release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull source
+        uses: actions/checkout@v1
+
+      - name: Eject charts
+        run: |
+          helm template --output-dir yaml charts/crunchy-postgres
+          helm template -f charts/tools/values-provision.yaml --output-dir yaml charts/tools
+          zip crunchy-postgres-yaml.zip ./yaml/**/templates/*.yaml ./yaml/**/templates/**/*.yaml -r
+
+      - name: Upload to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: crunchy-postgres-yaml.zip
+          asset_name: crunchy-postgres-yaml.zip
+          tag: ${{ github.ref }}
+          overwrite: true
