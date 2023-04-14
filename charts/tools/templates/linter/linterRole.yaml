@@ -479,18 +479,19 @@ rules:
   - roles
   verbs:
   - get
+  - patch
 - apiGroups:
-    - networking.k8s.io
+  - networking.k8s.io
   resources:
-    - networkpolicies
+  - networkpolicies
   verbs:
-    - get
+  - get
 - apiGroups:
-    - postgres-operator.crunchydata.com
+  - postgres-operator.crunchydata.com
   resources:
-    - postgresclusters
+  - postgresclusters
   verbs:
-    - get
-    - list
+  - get
+  - list
     
 {{ end }}
