@@ -28,10 +28,9 @@ runs:
 
         insecure_skip_tls_verify: true
     - run: |
-        cd operations/deployment/crunchy-postgres
-        helm dep up
+        helm dep up 
         helm upgrade --install --atomic "$@" crunchy-postgres . --timeout=8m0s -n ${{ inputs.openshift_namespace }} \
         --set networking.route.host=${{ inputs.openshift_route }} \
         --values values-repo.yaml
-
+      working-directory: ./charts/crunchy-postgres
       shell: bash

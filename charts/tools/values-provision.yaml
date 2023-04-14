@@ -1,0 +1,21 @@
+deployer:
+  serviceAccount:
+    enabled: true
+
+provisioner:
+  namespace: d8d909-tools
+  serviceAccount:
+    enabled: true
+
+linter:
+  serviceAccount:
+    enabled: true
+
+networking:
+  networkPolicy:
+    enabled: true
+  podNetworkPolicy:
+    enabled: true
+  route:
+    enabled: true
+    host:
