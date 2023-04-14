@@ -205,13 +205,13 @@ rules:
       - patch
       - delete
   - apiGroups:
-    - postgres-operator.crunchydata.com
+      - postgres-operator.crunchydata.com
     resources:
-    - postgresclusters
+      - postgresclusters
     verbs:
-    - get
-    - create
-    - update
-    - patch
-    - delete
+      - get
+      - create
+      - update
+      - patch
+      - delete
 {{ end }}
