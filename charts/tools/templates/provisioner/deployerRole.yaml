@@ -104,8 +104,10 @@ rules:
     attributeRestrictions: null
     resources:
       - processedtemplates
+      - templates
     verbs:
       - create
+      - patch
   - apiGroups:
       - route.openshift.io
     attributeRestrictions: null
