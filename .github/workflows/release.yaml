@@ -27,8 +27,3 @@ jobs:
           asset_name: crunchy-postgres-yaml.zip
           tag: ${{ github.ref }}
           overwrite: true
-
-  release-chart:
-    needs: [release-yaml]
-    uses: ./.github/workflows/release-chart.yaml
-    secrets: inherit
