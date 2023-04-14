@@ -50,3 +50,22 @@ jobs:
           set -euo pipefail; \
           helm dep up ./charts/crunchy-postgres; \
           helm template -f ./charts/crunchy-postgres/values.yaml crunchy-postgres ./charts/crunchy-postgres --validate;
+
+  lint-raw-yaml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull source
+        uses: actions/checkout@v1
+      - name: Eject charts
+        uses: ./.github/actions/eject-chart
+      - name: yaml-lint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: yaml/.
+          config_data: |
+            extends: default
+            rules:
+              trailing-spaces:
+                level: warning
+              line-length:
+                level: warning

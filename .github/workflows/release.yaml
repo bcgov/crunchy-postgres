@@ -18,23 +18,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Eject charts
-        run: |
-          helm template --output-dir yaml charts/crunchy-postgres
-          helm template -f charts/tools/values-provision.yaml --output-dir yaml charts/tools
-          zip crunchy-postgres-yaml.zip ./yaml/**/templates/*.yaml ./yaml/**/templates/**/*.yaml -r
-
-      - name: yaml-lint
-        uses: ibiqlik/action-yamllint@v3
-        with:
-          file_or_dir: yaml/.
-          config_data: |
-            extends: default
-            rules:
-              trailing-spaces:
-                level: warning
-              line-length:
-                level: warning
-
+        uses: ./.github/actions/eject-chart
       - name: Upload to release
         uses: svenstaro/upload-release-action@v2
         with:
