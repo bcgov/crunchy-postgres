@@ -1,0 +1,14 @@
+name: Eject charts
+description: Render helm charts and save to raw yaml
+
+runs:
+  using: composite
+  steps:
+    - name: Pull source
+      uses: actions/checkout@v1
+    - name: Eject charts
+      shell: bash
+      run: |
+        helm template --output-dir yaml charts/crunchy-postgres
+        helm template -f charts/tools/values-provision.yaml --output-dir yaml charts/tools
+        zip crunchy-postgres-yaml.zip ./yaml/**/templates/*.yaml ./yaml/**/templates/**/*.yaml -r
