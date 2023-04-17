@@ -10,7 +10,7 @@ This chart is meant to be deployed in all namespaces while using the `provisione
 
 #### Deployer
 
-A service account to be used to login to OpenShift and deploy your application in CI. Deployed
+A service account to be used to login to OpenShift and deploy your application in CI. This is deployed in all namespaces except for the tools/provisioner namespace.
 
 | Parameter                         | Description                         | Default |
 | --------------------------------- | ----------------------------------- | ------- |

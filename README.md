@@ -28,7 +28,7 @@ git push --tags
 
 ## Raw YAML files
 
-An archive of the latest releases raw YAML files can be found in the [releases](https://github.com/bcgov/crunchy-postgres/releases) section.
+An archive of the latest releases raw YAML files can be found in the [releases](https://github.com/bcgov/crunchy-postgres/releases) section. These are bundled together unlike the Helm charts which are released separately.
 
 Alternatively you can save them with the [helm template](https://helm.sh/docs/helm/helm_template/) command:
 
