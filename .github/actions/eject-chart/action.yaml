@@ -10,5 +10,5 @@ runs:
       shell: bash
       run: |
         helm template --output-dir yaml charts/crunchy-postgres
-        helm template -f charts/tools/values-provision.yaml --output-dir yaml charts/tools
+        helm template --output-dir yaml charts/tools
         zip crunchy-postgres-yaml.zip ./yaml/**/templates/*.yaml ./yaml/**/templates/**/*.yaml -r

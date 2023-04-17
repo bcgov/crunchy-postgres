@@ -4,23 +4,23 @@ deploymentName: crunchy-postgres
 deployer:
   namespace: # d8d909-tools
   serviceAccount:
-    enabled: false
+    enabled: true
 
 provisioner:
   serviceAccount:
-    enabled: false
+    enabled: true
 
 linter:
   serviceAccount:
-    enabled: false
+    enabled: true
 
 networking:
   # Network policy to allow traffic from outside the namespace (like the internet)
   networkPolicy:
-    enabled: false
+    enabled: true
   # Pod network policy to allow pods to accept traffic from other pods in this namespace
   podNetworkPolicy:
-    enabled: false
+    enabled: true
   route:
-    enabled: false
+    enabled: true
     host: # eg: crunchy-postgres.apps.silver.devops.gov.bc.ca
