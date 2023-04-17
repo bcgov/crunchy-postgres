@@ -2,6 +2,18 @@
 
 A tested helm chart for Crunchy Postgres
 
+## Charts
+
+### Crunchy Postgres chart
+
+[Crunchy Postgres Documentation](charts/crunchy-postgres/README.md)
+
+### Crunchy Postgres tools chart
+
+A set of standard service accounts and networking templates that were needed to deploy a Crunchy Postgres cluster but are kept separate from the main Crunchy Postgres chart.
+
+[Crunchy Postgres Tools Documentation](charts/tools/README.md)
+
 ## Release Process (WIP)
 
 After you have made changes to a chart and are ready to release a new version you must bump the version in the `chart.yaml` file so the [chart releaser action](https://github.com/helm/chart-releaser-action) knows to publish a new version.

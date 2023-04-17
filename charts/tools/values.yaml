@@ -2,14 +2,17 @@ fullnameOverride: crunchy-postgres-tools
 deploymentName: crunchy-postgres
 
 deployer:
+  serviceAccount:
+    enabled: true
+
+# Enable the provisioner service account which is used to deploy services to our other namespaces (dev/test/prod)
+# The tools namespace needs to be passed in so we know which namespace to install the service account in and the rolebindings get proper permissions
+provisioner:
   namespace: # d8d909-tools
   serviceAccount:
     enabled: true
 
-provisioner:
-  serviceAccount:
-    enabled: true
-
+# Service account with fairly low permissions for the linter
 linter:
   serviceAccount:
     enabled: true
@@ -21,6 +24,8 @@ networking:
   # Pod network policy to allow pods to accept traffic from other pods in this namespace
   podNetworkPolicy:
     enabled: true
+  # Enable OpenShift route whitch allows you to host your application at a public URL
   route:
     enabled: true
     host: # eg: crunchy-postgres.apps.silver.devops.gov.bc.ca
+
