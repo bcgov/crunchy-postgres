@@ -44,7 +44,3 @@ Alternatively you can save them with the [helm template](https://helm.sh/docs/he
 ## Vendor Info
 
 [PGO, the Postgres Operator from Crunchy Data](https://access.crunchydata.com/documentation/postgres-operator/v5/)
-
-```
-
-```
