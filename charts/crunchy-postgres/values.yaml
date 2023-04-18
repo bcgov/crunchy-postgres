@@ -2,51 +2,35 @@ fullnameOverride: crunchy-postgres
 
 crunchyImage: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres:centos8-14.1-0
 
-# If userInterface is enabled it is important to know that pgAdmin is currently incompatible with Postgresql 15
-# https://access.crunchydata.com/documentation/postgres-operator/v5/architecture/pgadmin4/
 postgresVersion: 14
-
-# Postgres Cluster resource values:
-pgmonitor:
-  enabled: false
-  exporter:
-    image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres-exporter:ubi8-5.0.4-0
-    requests:
-      cpu: 1m
-      memory: 64Mi
-    limits:
-      cpu: 50m
-      memory: 128Mi
 
 instances:
   name: ha # high availability
   replicas: 2
+  dataVolumeClaimSpec:
+    storage: 480Mi
+    storageClassName: netapp-block-standard
   requests:
     cpu: 1m
     memory: 256Mi
   limits:
     cpu: 100m
     memory: 512Mi
-  sidecars:
-    replicaCertCopy:
-      requests:
-        cpu: 1m
-        memory: 32Mi
-      limits:
-        cpu: 50m
-        memory: 64Mi
+  replicaCertCopy:
+    requests:
+      cpu: 1m
+      memory: 32Mi
+    limits:
+      cpu: 50m
+      memory: 64Mi
 
-dataVolumeClaimSpec:
-  storage: 480Mi
-
-pgbackrest:
+pgBackRest:
   image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-pgbackrest:centos8-2.36-0
   retention: "2" # Ideally a larger number such as 30 backups/days
   # If retention-full-type set to 'count' then the oldest backups will expire when the number of backups reach the number defined in retention
   # If retention-full-type set to 'time' then the number defined in retention will take that many days worth of full backups before expiration
   retentionFullType: count
   repos:
-    name: repo1
     schedules:
       full: 0 8 * * *
       incremental: 0 0,4,12,16,20 * * *
@@ -54,17 +38,6 @@ pgbackrest:
       accessModes: "ReadWriteOnce"
       storage: 64Mi
       storageClassName: netapp-file-backup
-    s3:
-      enabled: false
-      bucket:
-      endpoint:
-      region:
-    gcs:
-      enabled: false
-      bucket:
-    azure:
-      enabled: false
-      container:
   repoHost:
     requests:
       cpu: 1m
@@ -94,6 +67,18 @@ proxy:
   pgBouncer:
     image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-pgbouncer:centos8-1.16-0
     replicas: 2
+    requests:
+      cpu: 1m
+      memory: 64Mi
+    limits:
+      cpu: 50m
+      memory: 128Mi
+
+# Postgres Cluster resource values:
+pgmonitor:
+  enabled: false
+  exporter:
+    image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres-exporter:ubi8-5.0.4-0
     requests:
       cpu: 1m
       memory: 64Mi

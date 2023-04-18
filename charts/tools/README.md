@@ -76,5 +76,5 @@ OpenShift route whitch allows you to host your application at a public URL.
 
 | Parameter          | Description                                | Default                  |
 | ------------------ | ------------------------------------------ | ------------------------ |
-| `fullnameOverride` | Name of the tools deployment               | `crunchy-postgres-tools` |
+| `fullnameOverride` | Override release name                      | `crunchy-postgres-tools` |
 | `deploymentName`   | The name of your dev/test/prod deployments | `crunchy-postgres`       |

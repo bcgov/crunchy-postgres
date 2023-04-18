@@ -6,6 +6,8 @@ A tested helm chart for Crunchy Postgres
 
 ### Crunchy Postgres chart
 
+A chart to deploy a high availability Crunchy Postgres cluster
+
 [Crunchy Postgres Documentation](charts/crunchy-postgres/README.md)
 
 ### Crunchy Postgres tools chart
