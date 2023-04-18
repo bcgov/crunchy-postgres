@@ -32,7 +32,7 @@ An archive of the latest releases raw YAML files can be found in the [releases](
 
 Alternatively you can save them with the [helm template](https://helm.sh/docs/helm/helm_template/) command:
 
-`helm template -f charts/tools/values-repo.yaml --output-dir yaml charts/crunchy-postgres`
+`helm template --output-dir yaml charts/crunchy-postgres`
 `helm template --output-dir yaml charts/tools`
 
 ## Contact Info

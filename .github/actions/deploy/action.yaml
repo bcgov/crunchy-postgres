@@ -31,6 +31,6 @@ runs:
         helm dep up 
         helm upgrade --install --atomic "$@" crunchy-postgres . --timeout=8m0s -n ${{ inputs.openshift_namespace }} \
         --set networking.route.host=${{ inputs.openshift_route }} \
-        --values values-repo.yaml
+        --set pgmonitor.enabled=true
       working-directory: ./charts/crunchy-postgres
       shell: bash
