@@ -30,8 +30,8 @@ jobs:
           insecure_skip_tls_verify: true
       - run: |
           set -euo pipefail; \
-          helm dep up ./operations/deployment/tools; \
-          helm template -f ./operations/deployment/tools/values.yaml crunchy-postgres ./operations/deployment/tools --validate;
+          helm dep up ./charts/tools; \
+          helm template -f ./charts/tools/values.yaml crunchy-postgres ./charts/tools --validate;
 
   lint-crunchy-postgres-chart:
     runs-on: ubuntu-latest
@@ -48,5 +48,17 @@ jobs:
           insecure_skip_tls_verify: true
       - run: |
           set -euo pipefail; \
-          helm dep up ./operations/deployment/crunchy-postgres; \
-          helm template -f ./operations/deployment/crunchy-postgres/values.yaml crunchy-postgres ./operations/deployment/crunchy-postgres --validate;
+          helm dep up ./charts/crunchy-postgres; \
+          helm template -f ./charts/crunchy-postgres/values.yaml crunchy-postgres ./charts/crunchy-postgres --validate;
+
+  lint-raw-yaml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull source
+        uses: actions/checkout@v1
+      - name: Eject charts
+        uses: ./.github/actions/eject-chart
+      - name: Scan with kube-linter
+        uses: stackrox/kube-linter-action@v1.0.4
+        with:
+          directory: yaml

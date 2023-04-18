@@ -1,29 +1,50 @@
-# Application Name
+# Crunchy Postgres helm chart
 
-## What am I?
+A tested helm chart for Crunchy Postgres
 
-I am a template repo for use by the platform services team to encourage consistency in documentation and repo layout. For those using me, do not feel like you are *required* to adhere to this layout if you feel something better would suit the needs of your application or service. Find more information about this template [here](https://github.com/bcgov-c/platform-services-docs/blob/main/repo-organization.md)
+## Charts
 
-**Sadly, topics are not automatically imported when creating a repository from a template. Ensure you include the following topics:**
-- `citz`
-- `devops`
-- `platform-services`
-- `supported` / `unsupported`
-- plus any additional topics that may be appropriate
+### Crunchy Postgres chart
 
-Please use this README as a template for your own README, including all the same information, as appropriate.
+A chart to deploy a high availability Crunchy Postgres cluster
 
-Consider including your namespace name(s) in this section, so others supporting this tool know where to look.
+[Crunchy Postgres Documentation](charts/crunchy-postgres/README.md)
+
+### Crunchy Postgres tools chart
+
+A set of standard service accounts and networking templates that were needed to deploy a Crunchy Postgres cluster but are kept separate from the main Crunchy Postgres chart.
+
+[Crunchy Postgres Tools Documentation](charts/tools/README.md)
+
+## Release Process (WIP)
+
+After you have made changes to a chart and are ready to release a new version you must bump the version in the `chart.yaml` file so the [chart releaser action](https://github.com/helm/chart-releaser-action) knows to publish a new version.
+
+Once that is approved and merged you must tag and push the tag for the action to publish the release. The release workflow will automatically create a release for the updated chart as well as publish a separate release with an archive of the raw yaml files for those who don't want to use helm.
+
+```
+git checkout main
+git tag -a crunchy-postgres-raw-yaml-v.0.2.0 -m "Release v0.2.0"
+git push --tags
+```
+
+## Raw YAML files
+
+An archive of the latest releases raw YAML files can be found in the [releases](https://github.com/bcgov/crunchy-postgres/releases) section. These are bundled together unlike the Helm charts which are released separately.
+
+Alternatively you can save them with the [helm template](https://helm.sh/docs/helm/helm_template/) command:
+
+`helm template --output-dir yaml charts/crunchy-postgres`
+`helm template --output-dir yaml charts/tools`
 
 ## Contact Info
 
-Relevant rocketchat channels, maybe some outside docs, vendor support portals, etc.
+[#crunchydb on Rocket.Chat](https://chat.developer.gov.bc.ca/channel/crunchydb)
 
 ## Vendor Info
 
-If this is a deployment of a vendored product, include some links to relevant repos and documentation.
+[PGO, the Postgres Operator from Crunchy Data](https://access.crunchydata.com/documentation/postgres-operator/v5/)
 
-## Repo Overview
+```
 
-Tell me where to find important stuff in this repo and provide some info about the layout.
-
+```

@@ -1,1 +1,2 @@
-operations/**/templates/**/*.yaml
+charts/**/templates/**/*.yaml
+charts/**/templates/*.yaml
