@@ -1,0 +1,29 @@
+name: Release Yaml
+
+# There is definitely room to streamline this release process though for now this is being called on push tags:
+# eg: git tag -a raw-yaml-v.0.2.0 -m "Release v0.2.0"
+#     git push --tags
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  release-yaml:
+    name: Eject yaml and upload to release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull source
+        uses: actions/checkout@v1
+
+      - name: Eject charts
+        uses: ./.github/actions/eject-chart
+      - name: Upload to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: crunchy-postgres-yaml.zip
+          asset_name: crunchy-postgres-yaml.zip
+          tag: ${{ github.ref }}
+          overwrite: true
