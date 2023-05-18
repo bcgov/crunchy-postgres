@@ -66,7 +66,7 @@ A chart to provision a [Crunchy Postgres](https://www.crunchydata.com/) cluster.
 | Parameter                                   | Description                                                         | Default                              |
 | ------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------ |
 | `patroni.postgresql.pg_hba`                 | pg_hba permissions                                                  | `"host all all 0.0.0.0/0 md5"`       |
-| `crunchyImage`                              | Crunchy Postgres image                                              | `...crunchy-postgres:ubi8-14.5-1` |
+| `crunchyImage`                              | Crunchy Postgres image                                              | `...crunchy-postgres:ubi8-14.7-0` |
 | `patroni.parameters.shared_buffers`         | The number of shared memory buffers used by the server              | `16MB`                               |
 | `patroni.parameters.wal_buffers`            | The number of disk-page buffers in shared memory for WAL            | `64KB`                               |
 | `patroni.parameters.min_wal_size`           | The minimum size to shrink the WAL to                               | `32MB`                               |
