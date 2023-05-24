@@ -39,7 +39,7 @@ A chart to provision a [Crunchy Postgres](https://www.crunchydata.com/) cluster.
 
 | Parameter                                            | Description                                                   | Default                                |
 | ---------------------------------------------------- | ------------------------------------------------------------- | -------------------------------------- |
-| `pgBackRest.image`                                   | Crunchy pgBackRest                                            | `...crunchy-pgbackrest:centos8-2.36-0` |
+| `pgBackRest.image`                                   | Crunchy pgBackRest                                            | `...crunchy-pgbackrest:ubi8-2.40-1` |
 | `pgBackRest.retention`                               | Number of backups/days to keep depending on retentionFullType | `2`                                    |
 | `pgBackRest.retentionFullType`                       | Either 'count' or 'time'                                      | `count`                                |
 | `pgBackRest.repos.schedules.full`                    | Full backup schedule                                          | `0 8 * * *`                            |
@@ -66,7 +66,7 @@ A chart to provision a [Crunchy Postgres](https://www.crunchydata.com/) cluster.
 | Parameter                                   | Description                                                         | Default                              |
 | ------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------ |
 | `patroni.postgresql.pg_hba`                 | pg_hba permissions                                                  | `"host all all 0.0.0.0/0 md5"`       |
-| `crunchyImage`                              | Crunchy Postgres image                                              | `...crunchy-postgres:centos8-14.1-0` |
+| `crunchyImage`                              | Crunchy Postgres image                                              | `...crunchy-postgres:ubi8-14.7-0` |
 | `patroni.parameters.shared_buffers`         | The number of shared memory buffers used by the server              | `16MB`                               |
 | `patroni.parameters.wal_buffers`            | The number of disk-page buffers in shared memory for WAL            | `64KB`                               |
 | `patroni.parameters.min_wal_size`           | The minimum size to shrink the WAL to                               | `32MB`                               |
@@ -84,7 +84,7 @@ A lightweight connection pooler for PostgreSQL
 
 | Parameter                         | Description             | Default                               |
 | --------------------------------- | ----------------------- | ------------------------------------- |
-| `proxy.pgBouncer.image`           | Crunchy pgBouncer image | `...crunchy-pgbouncer:centos8-1.16-0` |
+| `proxy.pgBouncer.image`           | Crunchy pgBouncer image | `...crunchy-pgbouncer:ubi8-1.18-0` |
 | `proxy.pgBouncer.replicas`        | Number of replicas      | `2`                                   |
 | `proxy.pgBouncer.requests.cpu`    | CPU requests            | `1m`                                  |
 | `proxy.pgBouncer.requests.memory` | Memory requests         | `64Mi`                                |
