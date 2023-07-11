@@ -8,11 +8,33 @@ A tested helm chart for Crunchy Postgres
 
 A chart to deploy a high availability Crunchy Postgres cluster
 
+#### Add chart to dependencies in your chart.yaml:
+
+```
+dependencies:
+  - name: crunchy-postgres
+    version: 0.4.0
+    repository: https://bcgov.github.io/crunchy-postgres/
+```
+
+#### Values are located in the documentation here:
+
 [Crunchy Postgres Documentation](charts/crunchy-postgres/README.md)
 
 ### Crunchy Postgres tools chart
 
 A set of standard service accounts and networking templates that were needed to deploy a Crunchy Postgres cluster but are kept separate from the main Crunchy Postgres chart.
+
+#### Add chart to dependencies in your chart.yaml:
+
+```
+dependencies:
+  - name: crunchy-postgres-tools
+    version: 0.3.0
+    repository: https://bcgov.github.io/crunchy-postgres/
+```
+
+#### Values are located in the documentation here:
 
 [Crunchy Postgres Tools Documentation](charts/tools/README.md)
 
@@ -35,6 +57,7 @@ An archive of the latest releases raw YAML files can be found in the [releases](
 Alternatively you can save them with the [helm template](https://helm.sh/docs/helm/helm_template/) command:
 
 `helm template --output-dir yaml charts/crunchy-postgres`
+
 `helm template --output-dir yaml charts/tools`
 
 ## Contact Info
