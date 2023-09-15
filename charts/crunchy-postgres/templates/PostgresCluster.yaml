@@ -6,7 +6,9 @@ metadata:
 spec:
   metadata:
     labels: {{ include "crunchy-postgres.labels" . | nindent 6 }}
+  {{ if .Values.crunchyImage }}  
   image: {{ .Values.crunchyImage }}
+  {{ end }}
   postgresVersion: {{ .Values.postgresVersion }}
 
   {{ if .Values.pgmonitor.enabled }}
@@ -15,7 +17,9 @@ spec:
     pgmonitor:
       # this stuff is for the "exporter" container in the "postgres-cluster-ha" set of pods
       exporter:
+        {{ if .Values.pgmonitor.exporter.image}}
         image: {{ .Values.pgmonitor.exporter.image}}
+        {{ end }}
         resources:
           requests:
             cpu: {{ .Values.pgmonitor.exporter.requests.cpu }}
@@ -75,7 +79,9 @@ spec:
   
   backups:
     pgbackrest:
+      {{ if .Values.pgBackRest.image }}
       image: {{ .Values.pgBackRest.image }}
+      {{ end }}
       global:
         # hardcoding repo1 until we solution allowing multiple repos
         repo1-retention-full: {{ .Values.pgBackRest.retention | quote }}
@@ -133,7 +139,9 @@ spec:
       config:
         global:
           client_tls_sslmode: disable
+      {{ if .Values.proxy.pgBouncer.image }}
       image: {{ .Values.proxy.pgBouncer.image }}
+      {{ end }}
       replicas: {{ .Values.proxy.pgBouncer.replicas }}
       # these resources are for the "pgbouncer" container in the "postgres-crunchy-ha-pgbouncer" set of pods
       # there is a sidecar in these pods which are not mentioned here, but the requests/limits are teeny weeny by default so no worries there.

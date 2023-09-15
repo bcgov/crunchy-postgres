@@ -1,6 +1,6 @@
 fullnameOverride: crunchy-postgres
 
-crunchyImage: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres:ubi8-14.7-0
+crunchyImage: # it's not necessary to specify an image as the images specified in the Crunchy Postgres Operator will be pulled by default
 
 postgresVersion: 14
 
@@ -25,7 +25,7 @@ instances:
       memory: 64Mi
 
 pgBackRest:
-  image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-pgbackrest:ubi8-2.41-4
+  image: # it's not necessary to specify an image as the images specified in the Crunchy Postgres Operator will be pulled by default
   retention: "2" # Ideally a larger number such as 30 backups/days
   # If retention-full-type set to 'count' then the oldest backups will expire when the number of backups reach the number defined in retention
   # If retention-full-type set to 'time' then the number defined in retention will take that many days worth of full backups before expiration
@@ -65,7 +65,7 @@ patroni:
 
 proxy:
   pgBouncer:
-    image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-pgbouncer:ubi8-1.18-0
+    image: # it's not necessary to specify an image as the images specified in the Crunchy Postgres Operator will be pulled by default
     replicas: 2
     requests:
       cpu: 1m
@@ -78,7 +78,7 @@ proxy:
 pgmonitor:
   enabled: false
   exporter:
-    image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres-exporter:ubi8-5.0.4-0
+    image: # it's not necessary to specify an image as the images specified in the Crunchy Postgres Operator will be pulled by default
     requests:
       cpu: 1m
       memory: 64Mi
