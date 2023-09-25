@@ -42,7 +42,7 @@ EOF
 
 # default options
 dry_run=""
-declare -a suffixes=("tools" "dev" "test" "prod")
+declare -a suffixes=("tools" "dev" "prod")
 
 while [[ -n ${1+x} && "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
   -pp | --project-prefixes )
