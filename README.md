@@ -13,7 +13,7 @@ A chart to deploy a high availability Crunchy Postgres cluster
 ```
 dependencies:
   - name: crunchy-postgres
-    version: 0.4.0
+    version: 0.5.0
     repository: https://bcgov.github.io/crunchy-postgres/
 ```
 
