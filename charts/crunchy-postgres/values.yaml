@@ -6,6 +6,8 @@ postgresVersion: 14
 
 instances:
   name: ha # high availability
+  ## @param instances.metadata Custom labels or annotations for the instance pods
+  metadata: {}
   replicas: 2
   dataVolumeClaimSpec:
     storage: 480Mi

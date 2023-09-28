@@ -14,11 +14,12 @@ A chart to provision a [Crunchy Postgres](https://www.crunchydata.com/) cluster.
 
 ---
 
-###w Instances
+### Instances - Specifies one or more sets of PostgreSQL pods that replicate data for this cluster.
 
 | Parameter                                   | Description                    | Default                  |
 | ------------------------------------------- | ------------------------------ | ------------------------ |
 | `instances.name`                            | Instance name                  | `ha` (high availability) |
+| `instances.metadata`                        | Instance custom metadata       |                          |
 | `instances.replicas`                        | Number of replicas             | `2`                      |
 | `instances.dataVolumeClaimSpec.storage`     | Amount of storage for each PVC | `480Mi`                  |
 | `instances.requests.cpu`                    | CPU requests                   | `1m`                     |
@@ -100,6 +101,16 @@ A lightweight connection pooler for PostgreSQL
 | Parameter           | Description                                    | Default |
 | ------------------- | ---------------------------------------------- | ------- |
 | `pgmonitor.enabled` | Enable PG Monitor (currently only PG exporter) | `false` |
+
+When enabling PG Monitor you can should add annoations to the instances to inform Sysdig to scrap the metrics,
+
+```yaml
+instances:
+  metadata:
+    annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/port: '9187'
+```
 
 #### Postgres Exporter
 

@@ -32,6 +32,10 @@ spec:
 
   instances:
     - name: {{ .Values.instances.name }}
+      {{- if .Values.instances.metadata }}
+      metadata:
+        {{- toYaml .Values.instances.metadata | nindent 8 }}
+      {{- end }}
       replicas: {{ .Values.instances.replicas }}
       resources:
         requests:
