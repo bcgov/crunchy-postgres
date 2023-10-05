@@ -10,7 +10,10 @@ spec:
   image: {{ .Values.crunchyImage }}
   {{ end }}
   postgresVersion: {{ .Values.postgresVersion }}
-
+  imagePullPolicy:  {{ .Values.imagePullPolicy }}
+  {{ if .Values.postGISVersion }}
+  postGISVersion: {{ .Values.postGISVersion | quote }}
+  {{ end }}
   {{ if .Values.pgmonitor.enabled }}
 
   monitoring:
