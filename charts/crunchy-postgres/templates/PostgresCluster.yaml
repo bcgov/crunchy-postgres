@@ -93,7 +93,7 @@ spec:
           name: {{ .Values.pgBackRest.s3.s3Secret }}
       {{- end }}
       global:
-        # supporing both both PVC and s3 backups
+        # Support both PVC and s3 backups
         repo1-retention-full: {{ .Values.pgBackRest.retention | quote }}
         repo1-retention-full-type: {{ .Values.pgBackRest.retentionFullType }}
         {{- if .Values.pgBackRest.s3.enabled }}
