@@ -126,6 +126,14 @@ spec:
             limits:
               cpu: {{ .Values.pgBackRest.sidecars.limits.cpu }}
               memory: {{ .Values.pgBackRest.sidecars.limits.memory }}
+        pgbackrestConfig:
+          resources:
+            requests:
+              cpu: {{ .Values.pgBackRest.sidecars.requests.cpu }}
+              memory: {{ .Values.pgBackRest.sidecars.requests.memory }}
+            limits:
+              cpu: {{ .Values.pgBackRest.sidecars.limits.cpu }}
+              memory: {{ .Values.pgBackRest.sidecars.limits.memory }}
   
   patroni:
     dynamicConfiguration:
