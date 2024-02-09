@@ -56,7 +56,7 @@ pgBackRest:
       cpu: 50m
       memory: 128Mi
   s3:
-    enabled: true
+    enabled: false
     createS3Secret: true
     # the s3 secret name 
     s3Secret: s3-pgbackrest
