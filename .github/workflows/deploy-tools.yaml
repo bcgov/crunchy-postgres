@@ -23,5 +23,5 @@ jobs:
           insecure_skip_tls_verify: true
       - run: |
           chmod +x .bin/helm_deploy.sh
-          .bin/helm_deploy.sh -pp ${{ secrets.NAMESPACE_PREFIX }} -c ./charts/tools/ -n crunchy-postgres-tools -v ./charts/tools/values.yaml
+          .bin/helm_deploy.sh -pp ${{ secrets.NAMESPACE_PREFIX }} -ps tools -c ./charts/tools/ -n crunchy-postgres-tools -v ./charts/tools/values.yaml
         shell: bash
