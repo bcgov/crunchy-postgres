@@ -66,7 +66,7 @@ spec:
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 1
               podAffinityTerm:
-                topologyKey: kubernetes.io/hostname
+                topologyKey: topology.kubernetes.io/zone
                 labelSelector:
                   matchLabels:
                     postgres-operator.crunchydata.com/cluster:
@@ -189,7 +189,7 @@ spec:
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 1
               podAffinityTerm:
-                topologyKey: kubernetes.io/hostname
+                topologyKey: topology.kubernetes.io/zone
                 labelSelector:
                   matchLabels:
                     postgres-operator.crunchydata.com/cluster:
