@@ -77,6 +77,10 @@ pgBackRest:
     # keySecret is the S3 key secret. This is stored in a Secret.
     # Please DO NOT push this value to GitHub
     keySecret: "s3SecretValue"
+    # setting the below to be one plus of the default schedule
+    # to avoid conflicts
+    fullSchedule: "0 9 * * *"
+    incrementalSchedule: "0 0,5,13,17,21 * * *"
 
 patroni:
   postgresql:

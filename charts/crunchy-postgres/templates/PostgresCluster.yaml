@@ -119,8 +119,8 @@ spec:
         {{- if .Values.pgBackRest.s3.enabled }}
         - name: repo2
           schedules:
-            full: {{ .Values.pgBackRest.repos.schedules.full }}
-            incremental: {{ .Values.pgBackRest.repos.schedules.incremental }}
+            full: {{ if .Values.pgBackRest.s3.fullSchedule }}{{ .Values.pgBackRest.s3.fullSchedule }}{{ else }}{{ .Values.pgBackRest.repos.schedules.full }}{{ end }}
+            incremental: {{ if .Values.pgBackRest.s3.incrementalSchedule }}{{ .Values.pgBackRest.s3.incrementalSchedule }}{{ else }}{{ .Values.pgBackRest.repos.schedules.incremental }}{{ end }}
           s3:
             bucket: {{ .Values.pgBackRest.s3.bucket }}
             endpoint: {{ .Values.pgBackRest.s3.endpoint }}
