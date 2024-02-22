@@ -14,7 +14,7 @@ A chart to provision a [Crunchy Postgres](https://www.crunchydata.com/) cluster.
 
 ---
 
-###w Instances
+### Instances
 
 | Parameter                                   | Description                    | Default                  |
 | ------------------------------------------- | ------------------------------ | ------------------------ |
@@ -47,14 +47,14 @@ A chart to provision a [Crunchy Postgres](https://www.crunchydata.com/) cluster.
 | `pgBackRest.repos.schedules.volume.addessModes`      | Access modes                                                  | `ReadWriteOnce`        |
 | `pgBackRest.repos.schedules.volume.storage`          | Access modes                                                  | `64Mi`                 |
 | `pgBackRest.repos.schedules.volume.storageClassName` | Storage class name modes                                      | `netapp-file-backup`   |
-| `instances.requests.cpu`                             | CPU requests                                                  | `1m`                   |
-| `pgBackRest.repoHost.requests.memory`                | Memory requests                                               | `256Mi`                |
-| `pgBackRest.repoHost.limits.cpu`                     | CPU limits                                                    | `100m`                 |
-| `pgBackRest.repoHost.limits.memory`                  | Memory limits                                                 | `512Mi`                |
+| `pgBackRest.repoHost.requests.cpu`                   | CPU requests                                                  | `1m`                   |
+| `pgBackRest.repoHost.requests.memory`                | Memory requests                                               | `64Mi`                 |
+| `pgBackRest.repoHost.limits.cpu`                     | CPU limits                                                    | `50m`                  |
+| `pgBackRest.repoHost.limits.memory`                  | Memory limits                                                 | `128Mi`                |
 | `pgBackRest.sidecars.requests.cpu`                   | sidecars CPU requests                                         | `1m`                   |
-| `pgBackRest.sidecars.requests.memory`                | sidecars Memory requests                                      | `32Mi`                 |
+| `pgBackRest.sidecars.requests.memory`                | sidecars Memory requests                                      | `64Mi`                 |
 | `pgBackRest.sidecars.limits.cpu`                     | sidecars CPU limits                                           | `50m`                  |
-| `pgBackRest.sidecars.limits.memory`                  | sidecars Memory limits                                        | `64Mi`                 |
+| `pgBackRest.sidecars.limits.memory`                  | sidecars Memory limits                                        | `128Mi`                |
 
 ---
 
@@ -97,9 +97,13 @@ A lightweight connection pooler for PostgreSQL
 
 [Crunchy Postgres PG Monitor docs](https://access.crunchydata.com/documentation/pgmonitor/latest/)
 
-| Parameter           | Description                                    | Default |
-| ------------------- | ---------------------------------------------- | ------- |
-| `pgmonitor.enabled` | Enable PG Monitor (currently only PG exporter) | `false` |
+| Parameter                            | Description                                    | Default |
+| ------------------------------------ | ---------------------------------------------- | ------- |
+| `pgmonitor.enabled`                  | Enable PG Monitor (currently only PG exporter) | `false` |
+| `pgmonitor.exporter.requests.cpu`    | PG Monitor CPU requests                        | `1m`    |
+| `pgmonitor.exporter.requests.memory` | PG Monitor Memory requests                     | `64Mi`  |
+| `pgmonitor.exporter.limits.cpu`      | PG Monitor CPU limits                          | `50m`   |
+| `pgmonitor.exporter.limits.memory`   | PG Monitor Memory limits                       | `128Mi` |
 
 #### Postgres Exporter
 
