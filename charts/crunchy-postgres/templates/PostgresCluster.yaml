@@ -153,6 +153,9 @@ spec:
             limits:
               cpu: {{ .Values.pgBackRest.sidecars.limits.cpu }}
               memory: {{ .Values.pgBackRest.sidecars.limits.memory }}
+  standby:
+    enabled: {{ .Values.standby.enabled }}
+    repoName: {{ .Values.standby.repoName }}
   
   patroni:
     dynamicConfiguration:
