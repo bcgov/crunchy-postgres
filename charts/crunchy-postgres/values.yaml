@@ -40,6 +40,8 @@ dataSource:
   secretName: s3-pgbackrest
   repo:
     name: repo2
+    # s3UriStyle is host or path
+    s3UriStyle: path
     path: "/habackup"
     s3:
       bucket: "bucketName"
