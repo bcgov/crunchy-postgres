@@ -97,7 +97,7 @@ spec:
           bucket: {{ .Values.dataSource.repo.s3.bucket }}
           endpoint: {{ .Values.dataSource.repo.s3.endpoint }}
           region: {{ .Values.dataSource.repo.s3.region }}
-      stanza: {{ .Values.dataSource.stanza }}
+      stanza: {{ .Values.dataSource.repo.stanza }}
   {{ end }}
   
   backups:
