@@ -8,7 +8,7 @@ deployer:
 # Enable the provisioner service account which is used to deploy services to our other namespaces (dev/test/prod)
 # The tools namespace needs to be passed in so we know which namespace to install the service account in and the rolebindings get proper permissions
 provisioner:
-  namespace: #tools-namespace
+  namespace: e95e89-tools
   serviceAccount:
     enabled: true
 
