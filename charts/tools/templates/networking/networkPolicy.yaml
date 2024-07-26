@@ -1,4 +1,4 @@
-{{- if .Values.networking.networkPolicy.enabled }}
+{{- if and .Values.networking.networkPolicy.enabled (ne .Release.Namespace .Values.provisioner.namespace) }}
 
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
