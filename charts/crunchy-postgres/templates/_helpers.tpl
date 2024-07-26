@@ -40,6 +40,9 @@ helm.sh/chart: {{ include "crunchy-postgres.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- if .Values.isNSX }}
+DataClass: Medium
+{{- end }}
 {{- end }}
 
 {{/*

@@ -61,6 +61,16 @@ Pod network policy to allow pods to accept traffic from other pods in this names
 
 ---
 
+#### Additional network configuration for NSX clusters
+
+Set to 'true' to enable network configuration required in the NSX clusters (Emerald, KLAB2)
+
+| Parameter          | Description                                  | Default |
+| -------------------| -------------------------------------------- | ------- |
+| `networking.isNSX` | Enable operator ingress and DataClass labels | `false` |
+
+---
+
 #### Route
 
 OpenShift route whitch allows you to host your application at a public URL.

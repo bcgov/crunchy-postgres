@@ -2,7 +2,11 @@ fullnameOverride: crunchy-postgres
 
 crunchyImage: # it's not necessary to specify an image as the images specified in the Crunchy Postgres Operator will be pulled by default
 #crunchyImage: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres-gis:ubi8-15.2-3.3-0 # use this image for POSTGIS
+# If setting postgresVersion to 14, also uncomment the pgbackrest image at
+#   .pgBackRest.image below
 postgresVersion: 15
+# Set isNSX to true when deploying to an NSX cluster (Emerald, KLAB2)
+isNSX: false
 #postGISVersion: '3.3' # use this version of POSTGIS. both crunchyImage and this property needs to have valid values for POSTGIS to be enabled.
 imagePullPolicy: IfNotPresent
 
@@ -48,7 +52,9 @@ dataSource:
     stanza: db
 
 pgBackRest:
-  image: # it's not necessary to specify an image as the images specified in the Crunchy Postgres Operator will be pulled by default
+  # If using Postgres 14 with version 5.5 of the Postgres Operator, uncomment
+  # the following image line, otherwise leave it commented out.
+  #image: "artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-pgbackrest:ubi8-2.49-0"
   retention: "2" # Ideally a larger number such as 30 backups/days
   # If retention-full-type set to 'count' then the oldest backups will expire when the number of backups reach the number defined in retention
   # If retention-full-type set to 'time' then the number defined in retention will take that many days worth of full backups before expiration
