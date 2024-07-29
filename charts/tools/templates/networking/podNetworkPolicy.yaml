@@ -1,4 +1,4 @@
-{{- if and .Values.networking.podNetworkPolicy.enabled (ne .Release.Namespace .Values.provisioner.namespace)  }}
+{{- if and .Values.networking.podNetworkPolicy.enabled (ne .Release.Namespace .Values.provisioner.namespace) }}
 
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1

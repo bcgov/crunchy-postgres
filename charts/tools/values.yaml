@@ -18,8 +18,10 @@ linter:
     enabled: true
 
 networking:
+  #
   # Set isNSX to true if deploying to KLAB2 or Emerald, otherwise leave false
   isNSX: false
+  #
   # Network policy to allow traffic from outside the namespace (like the internet)
   networkPolicy:
     enabled: true
