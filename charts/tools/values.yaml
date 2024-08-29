@@ -8,7 +8,7 @@ deployer:
 # Enable the provisioner service account which is used to deploy services to our other namespaces (dev/test/prod)
 # The tools namespace needs to be passed in so we know which namespace to install the service account in and the rolebindings get proper permissions
 provisioner:
-  namespace: #tools-namespace
+  namespace: #
   serviceAccount:
     enabled: true
 
@@ -18,6 +18,10 @@ linter:
     enabled: true
 
 networking:
+  #
+  # Set isNSX to true if deploying to KLAB2 or Emerald, otherwise leave false
+  isNSX: false
+  #
   # Network policy to allow traffic from outside the namespace (like the internet)
   networkPolicy:
     enabled: true

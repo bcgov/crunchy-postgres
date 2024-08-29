@@ -11,6 +11,7 @@ spec:
   # to accept traffic from the OpenShift router pods. This is
   # required for things outside of OpenShift (like the Internet)
   # to reach your pods.
+{{- if not .Values.networking.isNSX }}
   ingress:
     - from:
         - namespaceSelector:
@@ -19,5 +20,20 @@ spec:
   podSelector: {}
   policyTypes:
     - Ingress
-    
+{{- else }}
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              network.openshift.io/policy-group: ingress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              network.openshift.io/policy-group: ingress
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+{{- end -}}
 {{- end }}

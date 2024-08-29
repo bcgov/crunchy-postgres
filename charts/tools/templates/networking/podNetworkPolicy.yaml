@@ -7,10 +7,24 @@ metadata:
   labels:
 {{ include "crunchy-postgres-tools.labels" . | indent 4}}
 spec:
+{{- if not .Values.networking.isNSX }}
   # This policy allows pods to accept traffic from other pods in this namespace
   ingress:
     - from:
         - podSelector: {}
   podSelector: {}
+{{- else }}
+  # This policy allows pods to accept traffic from other pods in this namespace
+  egress:
+  - to:
+    - podSelector: {}
+  ingress:
+  - from:
+    - podSelector: {}
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+{{- end -}}
 
 {{ end }}
