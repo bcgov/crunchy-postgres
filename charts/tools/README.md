@@ -65,9 +65,9 @@ Pod network policy to allow pods to accept traffic from other pods in this names
 
 Set to 'true' to enable network configuration required in the NSX clusters (Emerald, KLAB2)
 
-| Parameter          | Description                                  | Default |
-| -------------------| -------------------------------------------- | ------- |
-| `networking.isNSX` | Enable operator ingress and DataClass labels | `false` |
+| Parameter           | Description                                  | Default |
+| ------------------- | -------------------------------------------- | ------- |
+| `networking.isNSX`  | Enable operator ingress and DataClass labels | `false` |
 
 ---
 
