@@ -55,11 +55,7 @@ dataSource:
     stanza: db
 
 pgBackRest:
-  #
-  # If using Postgres 14 with version 5.5+ of the Postgres Operator, uncomment
-  # the following image line, otherwise leave it commented out.
-  #image: "artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-pgbackrest:ubi8-2.49-0"
-  #
+  image: # it's not necessary to specify an image as the images specified in the Crunchy Postgres Operator will be pulled by default
   retention: "2" # Ideally a larger number such as 30 backups/days
   # If retention-full-type set to 'count' then the oldest backups will expire when the number of backups reach the number defined in retention
   # If retention-full-type set to 'time' then the number defined in retention will take that many days worth of full backups before expiration
