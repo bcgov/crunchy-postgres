@@ -75,13 +75,13 @@ You are encouraged to use the `postgresVersion` and `postGISVersion` values in t
 Currently, the operator is on version 5.5.1, and the following values are valid for use with `postgresVersion` and `postGISVersion`, alongside their image tags:
 
 -  `postgresVersion: 14` - `crunchy-postgres:ubi8-14.11-0`
-- - `postGISVersion: 3.1` - `crunchy-postgres-gis:ubi8-14.11-3.1-0`
-- - `postGISVersion: 3.2` - `crunchy-postgres-gis:ubi8-14.11-3.2-0`
-- - `postGISVersion: 3.3` - `crunchy-postgres-gis:ubi8-14.11-3.3-0`
+   - `postGISVersion: 3.1` - `crunchy-postgres-gis:ubi8-14.11-3.1-0`
+   - `postGISVersion: 3.2` - `crunchy-postgres-gis:ubi8-14.11-3.2-0`
+   - `postGISVersion: 3.3` - `crunchy-postgres-gis:ubi8-14.11-3.3-0`
 -  `postgresVersion: 15` - `crunchy-postgres:ubi8-15.6-0`
-- - `postGISVersion: 3.3` - `crunchy-postgres-gis:ubi8-15.6-3.3-0`
+   - `postGISVersion: 3.3` - `crunchy-postgres-gis:ubi8-15.6-3.3-0`
 -  `postgresVersion: 16` - `crunchy-postgres:ubi8-16.2-0`
-- - `postGISVersion: 3.3` - `crunchy-postgres-gis:ubi8-16.2-3.3-0`
-- - `postGISVersion: 3.4` - `crunchy-postgres-gis:ubi8-16.2-3.4-0`
+   - `postGISVersion: 3.3` - `crunchy-postgres-gis:ubi8-16.2-3.3-0`
+   - `postGISVersion: 3.4` - `crunchy-postgres-gis:ubi8-16.2-3.4-0`
 
 Only the image name and tag were listed above for readability. The full URL is `artifacts.developer.gov.bc.ca/bcgov-docker-local/[image]:[tag]`
