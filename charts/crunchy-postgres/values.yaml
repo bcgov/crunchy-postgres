@@ -55,7 +55,6 @@ pgBackRest:
   retentionFullType: count
   repos:
     - name: repo1
-      path: "/backups/redash"
       volume:
        accessModes:
          - "ReadWriteOnce"
