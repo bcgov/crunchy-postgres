@@ -21,16 +21,10 @@ instances:
   requests:
     cpu: 1m
     memory: 256Mi
-  limits:
-    cpu: 100m
-    memory: 512Mi
   replicaCertCopy:
     requests:
       cpu: 1m
       memory: 32Mi
-    limits:
-      cpu: 50m
-      memory: 64Mi
 
 # If we need to restore the cluster from a backup, we need to set the following values
 # assuming restore from repo2 (s3), adjust as needed if your S3 repo is different
@@ -65,16 +59,10 @@ pgBackRest:
     requests:
       cpu: 1m
       memory: 64Mi
-    limits:
-      cpu: 50m
-      memory: 128Mi
   sidecars:
     requests:
       cpu: 1m
       memory: 64Mi
-    limits:
-      cpu: 50m
-      memory: 128Mi
   s3:
     enabled: false
     createS3Secret: true
@@ -119,9 +107,6 @@ proxy:
     requests:
       cpu: 1m
       memory: 64Mi
-    limits:
-      cpu: 50m
-      memory: 128Mi
 
 # Postgres Cluster resource values:
 pgmonitor:
@@ -131,6 +116,3 @@ pgmonitor:
     requests:
       cpu: 1m
       memory: 64Mi
-    limits:
-      cpu: 50m
-      memory: 128Mi
