@@ -5,6 +5,8 @@ crunchyImage: # it's not necessary to specify an image as the images specified i
 postgresVersion: 15
 #postGISVersion: '3.3' # use this version of POSTGIS.
 imagePullPolicy: IfNotPresent
+#openshift, so it stops putting invalid security context constraints on the pods
+openshift: true
 
 # enable to bootstrap a standby cluster from backup. Then disable to promote this standby to primary
 standby:
