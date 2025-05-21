@@ -4,7 +4,7 @@ metadata:
   name: {{ template "crunchy-postgres.fullname" . }}
   labels: {{ include "crunchy-postgres.labels" . | nindent 4 }}
 spec:
-  openshift: {{ .Values.openshift | fallback "false" }}
+  openshift: {{ .Values.openshift | quote }}
   metadata:
     labels: {{ include "crunchy-postgres.labels" . | nindent 6 }}
   {{ if .Values.crunchyImage }}  
