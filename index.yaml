@@ -3,6 +3,16 @@ entries:
   crunchy-postgres:
   - apiVersion: v2
     appVersion: 5.5.1
+    created: "2025-05-21T17:08:44.522824341Z"
+    description: A Helm chart for Kubernetes
+    digest: 7c3018108606e9c5280f1a5c2534c5889c67ef10b7bf11264027a9adc9c799f8
+    name: crunchy-postgres
+    type: application
+    urls:
+    - https://github.com/bcgov/crunchy-postgres/releases/download/crunchy-postgres-0.6.5/crunchy-postgres-0.6.5.tgz
+    version: 0.6.5
+  - apiVersion: v2
+    appVersion: 5.5.1
     created: "2025-01-24T17:02:47.840218592Z"
     description: A Helm chart for Kubernetes
     digest: 5c30d64a0b42e00f593c7cfc4b8a60755ab1c18bd87b14118dfcb81b9d8d6099
@@ -142,4 +152,4 @@ entries:
     urls:
     - https://github.com/bcgov/crunchy-postgres/releases/download/crunchy-postgres-tools-0.1.0/crunchy-postgres-tools-0.1.0.tgz
     version: 0.1.0
-generated: "2025-01-24T17:02:47.94312911Z"
+generated: "2025-05-21T17:08:44.678970197Z"
