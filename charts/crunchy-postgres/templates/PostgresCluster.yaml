@@ -118,8 +118,10 @@ spec:
       {{- end }}
       global:
         # Support both PVC and s3 backups
+        {{- if .Values.pgBackRest.repo1.enabled }}
         repo1-retention-full: {{ .Values.pgBackRest.retention | quote }}
         repo1-retention-full-type: {{ .Values.pgBackRest.retentionFullType }}
+        {{- end }}
         {{- if .Values.pgBackRest.s3.enabled }}
         repo2-retention-full: {{ .Values.pgBackRest.retention | quote }}
         repo2-retention-full-type: {{ .Values.pgBackRest.retentionFullType }}
@@ -128,6 +130,7 @@ spec:
         {{- end }}
       repos:
         # hardcoding repo1 until we solution allowing multiple repos
+        {{- if .Values.pgBackRest.repo1.enabled }}
         - name: repo1
           schedules:
             full: {{ .Values.pgBackRest.repos.schedules.full }}
@@ -140,6 +143,7 @@ spec:
                 requests:
                   storage: {{ .Values.pgBackRest.repos.volume.storage }}
               storageClassName: {{ .Values.pgBackRest.repos.volume.storageClassName }}
+        {{- end }}
         {{- if .Values.pgBackRest.s3.enabled }}
         - name: repo2
           schedules:
