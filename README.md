@@ -72,16 +72,41 @@ Alternatively you can save them with the [helm template](https://helm.sh/docs/he
 
 You are encouraged to use the `postgresVersion` and `postGISVersion` values in the values.yaml file to specify your chosen version information instead of using the `crunchyImage` value to specify a specific image.
 
-Currently, the operator is on version 5.5.1, and the following values are valid for use with `postgresVersion` and `postGISVersion`, alongside their image tags:
+For operator version 5.8.5, and the following values are valid for use with `postgresVersion` and `postGISVersion`, alongside their image tags:
 
--  `postgresVersion: 14` - `crunchy-postgres:ubi8-14.11-0`
-   - `postGISVersion: 3.1` - `crunchy-postgres-gis:ubi8-14.11-3.1-0`
-   - `postGISVersion: 3.2` - `crunchy-postgres-gis:ubi8-14.11-3.2-0`
-   - `postGISVersion: 3.3` - `crunchy-postgres-gis:ubi8-14.11-3.3-0`
--  `postgresVersion: 15` - `crunchy-postgres:ubi8-15.6-0`
-   - `postGISVersion: 3.3` - `crunchy-postgres-gis:ubi8-15.6-3.3-0`
--  `postgresVersion: 16` - `crunchy-postgres:ubi8-16.2-0`
-   - `postGISVersion: 3.3` - `crunchy-postgres-gis:ubi8-16.2-3.3-0`
-   - `postGISVersion: 3.4` - `crunchy-postgres-gis:ubi8-16.2-3.4-0`
+**ubi8**
+-  `postgresVersion: 15` - `crunchy-postgres:ubi8-15.15-2547`
+   - `postGISVersion: 3.3` - `crunchy-postgres-gis:ubi8-15.15-3.3-2547`
+-  `postgresVersion: 16` - `crunchy-postgres:ubi8-16.11-2547`
+   - `postGISVersion: 3.3` - `crunchy-postgres-gis:ubi8-16.11-3.3-2547`
+   - `postGISVersion: 3.4` - `crunchy-postgres-gis:ubi8-16.11-3.4-2547`
+-  `postgresVersion: 17` - `crunchy-postgres:ubi8-17.7-2547`
+   - `postGISVersion: 3.4` - `crunchy-postgres-gis:ubi8-17.7-3.4-2547`
+   - `postGISVersion: 3.5` - `crunchy-postgres-gis:ubi8-17.7-3.5-2547`
+ 
+**ubi9**
+-  `postgresVersion: 15` - `crunchy-postgres:ubi9-15.15-2547`
+   - `postGISVersion: 3.3` - `crunchy-postgres-gis:ubi9-15.15-3.3-2547`
+-  `postgresVersion: 16` - `crunchy-postgres:ubi9-16.11-2547`
+   - `postGISVersion: 3.3` - `crunchy-postgres-gis:ubi9-16.11-3.3-2547`
+   - `postGISVersion: 3.4` - `crunchy-postgres-gis:ubi9-16.11-3.4-2547`
+-  `postgresVersion: 17` - `crunchy-postgres:ubi9-17.7-2547`
+   - `postGISVersion: 3.4` - `crunchy-postgres-gis:ubi9-17.7-3.4-2547`
+   - `postGISVersion: 3.5` - `crunchy-postgres-gis:ubi9-17.7-3.5-2547`
+   - `postGISVersion: 3.6` - `crunchy-postgres-gis:ubi9-17.7-3.6-2547`
+- `postgresVersion: 18` - `crunchy-postgres:ubi9-18.1-2547`
+   - `postGISVersion: 3.6` - `crunchy-postgres-gis:ubi9-18.1-3.6-2547`
+
+For operator version 5.7.0, and the following values are valid for use with `postgresVersion` and `postGISVersion`, alongside their image tags:
+
+-  `postgresVersion: 15` - `crunchy-postgres:ubi8-15.8-2`
+   - `postGISVersion: 3.3` - `crunchy-postgres-gis:ubi8-15.8-3.3-2`
+-  `postgresVersion: 16` - `crunchy-postgres:ubi8-16.4-2`
+   - `postGISVersion: 3.3` - `crunchy-postgres-gis:ubi8-16.4-3.3-2`
+   - `postGISVersion: 3.4` - `crunchy-postgres-gis:ubi8-16.4-3.4-2`
+-  `postgresVersion: 17` - `crunchy-postgres:ubi8-17.0-0`
+   - `postGISVersion: 3.4` - `crunchy-postgres-gis:ubi8-17.0-3.4-0`
+
+
 
 Only the image name and tag were listed above for readability. The full URL is `artifacts.developer.gov.bc.ca/bcgov-docker-local/[image]:[tag]`
